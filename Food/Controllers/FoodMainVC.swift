@@ -12,11 +12,15 @@ class FoodMainVC: UIViewController, FoodViewModelOutput {
     
     private let viewModel: FoodViewModel
     private lazy var foods: [FoodDetailModel] = []
+    
     private let searchController = UISearchController(searchResultsController: nil)
+    
     private var ButtonStack = UIStackView()
     private var dropdownButton = UIButton()
     private var numberButton = UIButton()
     private var searchButton = UIButton()
+    
+    private var collectionView : UICollectionView!
     
     var maxFat = Int()
     var number = Int()
@@ -53,6 +57,9 @@ class FoodMainVC: UIViewController, FoodViewModelOutput {
     
     func updateView(values: [FoodDetailModel]) {
         foods = values
+        DispatchQueue.main.async {
+            self.collectionView.reloadData()
+        }
     }
     
     override func viewDidLoad() {
@@ -62,8 +69,7 @@ class FoodMainVC: UIViewController, FoodViewModelOutput {
         self.navigationItem.title = "Food"
         self.navigationController?.navigationBar.prefersLargeTitles = true
         self.navigationItem.largeTitleDisplayMode = .always
-        
-        setupSearchController()
+                
         setupDropdownMenu()
         style()
         layout()
@@ -93,7 +99,8 @@ class FoodMainVC: UIViewController, FoodViewModelOutput {
         viewModel.fetchFoods(query: searchController.searchBar.text, maxFat: maxFat, number: number)
     }
     
-    private func setupSearchController() {
+    func style() {
+        
         self.searchController.obscuresBackgroundDuringPresentation = false
         self.searchController.hidesNavigationBarDuringPresentation = false
         self.searchController.searchBar.placeholder = "Search Character"
@@ -104,9 +111,6 @@ class FoodMainVC: UIViewController, FoodViewModelOutput {
         
         searchController.searchBar.showsBookmarkButton = true
         searchController.searchBar.setImage(UIImage(systemName: "line.horizontal.3.decrease"), for: .bookmark, state: .normal)
-    }
-    
-    func style() {
         
         ButtonStack.translatesAutoresizingMaskIntoConstraints = false
         ButtonStack.axis = .horizontal
@@ -114,7 +118,7 @@ class FoodMainVC: UIViewController, FoodViewModelOutput {
         ButtonStack.distribution = .fillEqually
         
         dropdownButton.translatesAutoresizingMaskIntoConstraints = false
-        dropdownButton.setTitle("Select Option", for: .normal)
+        dropdownButton.setTitle("Max Fat", for: .normal)
         dropdownButton.addTarget(self, action: #selector(showDropdownMenu), for: .touchUpInside)
         dropdownButton.setTitleColor(.black, for: UIControl.State.normal)
         dropdownButton.backgroundColor = .white
@@ -122,7 +126,7 @@ class FoodMainVC: UIViewController, FoodViewModelOutput {
         dropdownButton.contentEdgeInsets = UIEdgeInsets(top: 10.0, left: 10.0, bottom: 10.0, right: 10.0)
         
         numberButton.translatesAutoresizingMaskIntoConstraints = false
-        numberButton.setTitle("Select Option", for: .normal)
+        numberButton.setTitle("Number", for: .normal)
         numberButton.addTarget(self, action: #selector(showNumberdownMenu), for: .touchUpInside)
         numberButton.setTitleColor(.black, for: UIControl.State.normal)
         numberButton.backgroundColor = .white
@@ -136,10 +140,19 @@ class FoodMainVC: UIViewController, FoodViewModelOutput {
         searchButton.backgroundColor = .white
         searchButton.layer.cornerRadius = 10
         searchButton.contentEdgeInsets = UIEdgeInsets(top: 10.0, left: 10.0, bottom: 10.0, right: 10.0)
+        
+        let layout = UICollectionViewFlowLayout()
+        collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.register(CustomCollectionViewCell.self, forCellWithReuseIdentifier: CustomCollectionViewCell.identifier)
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.backgroundColor = .systemGreen
     }
     
     func layout() {
         view.addSubview(ButtonStack)
+        view.addSubview(collectionView)
         
         ButtonStack.addArrangedSubview(dropdownButton)
         ButtonStack.addArrangedSubview(numberButton)
@@ -151,6 +164,32 @@ class FoodMainVC: UIViewController, FoodViewModelOutput {
             ButtonStack.leadingAnchor.constraint(equalToSystemSpacingAfter: view.leadingAnchor, multiplier: 2),
             ButtonStack.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             
+            collectionView.topAnchor.constraint(equalToSystemSpacingBelow: ButtonStack.bottomAnchor, multiplier: 5),
+            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            collectionView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
+            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
+            
         ])
     }
+}
+
+//MARK: - Collection View
+extension FoodMainVC: UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return foods.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CustomCollectionViewCell", for: indexPath) as! CustomCollectionViewCell
+        cell.configure(with: foods[indexPath.row])
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: view.frame.width/2-20, height: 250)
+    }
+    
+
 }

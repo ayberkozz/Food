@@ -40,3 +40,27 @@ class FoodViewModel {
         }
     }
 }
+
+//extension FoodViewModel {
+//    public func inSerchMode(_ searchController: UISearchController) -> Bool {
+//        let isActive = searchController.isActive
+//        let searchText = searchController.searchBar.text ?? ""
+//        
+//        return isActive && !searchText.isEmpty
+//    }
+//    
+//    
+//    public func updateSearchController(searchBarText: String?) {
+//        self.filteredFoods = AllFoods
+//        
+//        if let searchText = searchBarText?.lowercased() {
+//            guard !searchText.isEmpty else {self.output?.updateView(values: []); return}
+//            
+//            self.filteredFoods = self.filteredFoods.filter({
+//                $0.title.lowercased().contains(searchText)
+//            })
+//        }
+//        self.output?.updateView(values: self.AllFoods)
+//    }
+//
+//}
