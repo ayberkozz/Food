@@ -66,7 +66,7 @@ class FoodMainVC: UIViewController, FoodViewModelOutput {
         super.viewDidLoad()
         
         view.backgroundColor = .systemGreen
-        self.navigationItem.title = "Food"
+        self.navigationItem.title = "Food🥘"
         self.navigationController?.navigationBar.prefersLargeTitles = true
         self.navigationItem.largeTitleDisplayMode = .always
                 
@@ -98,6 +98,8 @@ class FoodMainVC: UIViewController, FoodViewModelOutput {
     @objc private func searchButtonPressed() {
         viewModel.fetchFoods(query: searchController.searchBar.text, maxFat: maxFat, number: number)
     }
+    
+    
     
     func style() {
         

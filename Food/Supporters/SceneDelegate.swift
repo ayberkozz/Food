@@ -15,9 +15,20 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         let window = UIWindow(windowScene: windowScene)
+        
         let foodService = FoodService()
         let viewModel = FoodViewModel(foodService: foodService)
-        window.rootViewController = UINavigationController(rootViewController: FoodMainVC(viewModel: viewModel))
+        let foodMainVC = FoodMainVC(viewModel: viewModel)
+        let navigationController = UINavigationController(rootViewController: foodMainVC)
+        navigationController.tabBarItem = UITabBarItem(title: "Food", image: UIImage(systemName: "fork.knife"), tag: 0)
+        
+        let navigationController1 = UINavigationController(rootViewController: IngredientsVC())
+        navigationController1.tabBarItem = UITabBarItem(title: "Ingredients", image: UIImage(systemName: "takeoutbag.and.cup.and.straw"), tag: 1)
+        
+        let tabBarController = UITabBarController()
+        tabBarController.viewControllers = [navigationController, navigationController1]
+        
+        window.rootViewController = tabBarController
         self.window = window
         self.window?.makeKeyAndVisible()
     }
