@@ -10,6 +10,7 @@ import Foundation
 enum Endpoint {
 
     case complexSearch(query: String?, maxFat: Int?, number: Int?)
+    case ingredientsSearch(query: String?)
     
     var request: URLRequest? {
         guard let url = self.url else { return nil }
@@ -35,6 +36,11 @@ enum Endpoint {
             if let number = number {
                 queryItems.append(URLQueryItem(name: "number", value: String(number)))
             }
+            
+        case .ingredientsSearch(let query):
+            if let query = query {
+                queryItems.append(URLQueryItem(name: "query", value: query))
+            }
         }
         
         queryItems.append(URLQueryItem(name: "apiKey", value: Constants.API_KEY))
@@ -56,6 +62,8 @@ extension URLRequest {
     mutating func addValues(for endpoint: Endpoint) {
         switch endpoint {
         case .complexSearch:
+            self.setValue(HTTP.Headers.Value.applicationJson.rawValue, forHTTPHeaderField: HTTP.Headers.Key.contentType.rawValue)
+        case .ingredientsSearch:
             self.setValue(HTTP.Headers.Value.applicationJson.rawValue, forHTTPHeaderField: HTTP.Headers.Key.contentType.rawValue)
         }
     }

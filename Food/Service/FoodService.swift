@@ -14,12 +14,12 @@ enum FoodServiceError: Error{
 }
 
 protocol FoodServiceProtocol {
-    func fetchFoods(with endpoint: Endpoint,completion: @escaping (Result<[FoodDetailModel],FoodServiceError>)->Void)
+    func fetchFoods<T:Codable>(with endpoint: Endpoint,completion: @escaping (Result<T,FoodServiceError>)->Void)
 }
 
-class FoodService {
+class FoodService : FoodServiceProtocol {
     
-    func fetchFoods(with endpoint: Endpoint,completion: @escaping (Result<[FoodDetailModel],FoodServiceError>)->Void) {
+    func fetchFoods<T:Codable>(with endpoint: Endpoint,completion: @escaping (Result<T,FoodServiceError>)->Void) {
         
         guard let request = endpoint.request else {return}
         
@@ -36,8 +36,8 @@ class FoodService {
             if let data = data {
                 do {
                     let decoder = JSONDecoder()
-                    let foodData = try decoder.decode(FoodModel.self, from: data)
-                    completion(.success(foodData.results))
+                    let decodedData = try decoder.decode(T.self, from: data)
+                    completion(.success(decodedData))
                 } catch let errr {
                     completion(.failure(.decodingError(errr.localizedDescription)))
                     print(errr.localizedDescription)

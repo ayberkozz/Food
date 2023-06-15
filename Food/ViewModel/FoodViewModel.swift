@@ -10,7 +10,7 @@ import UIKit
 
 class FoodViewModel {
     
-    private let foodService : FoodService
+    private let foodService : FoodServiceProtocol
     weak var output : FoodViewModelOutput?
     
     private(set) var AllFoods: [FoodDetailModel] = [] {
@@ -21,7 +21,7 @@ class FoodViewModel {
     
     private(set) var filteredFoods : [FoodDetailModel] = []
     
-    init(foodService: FoodService, output: FoodViewModelOutput? = nil) {
+    init(foodService: FoodServiceProtocol, output: FoodViewModelOutput? = nil) {
         self.foodService = foodService
     }
     
@@ -29,10 +29,11 @@ class FoodViewModel {
         
         let endpoint = Endpoint.complexSearch(query: query, maxFat: maxFat, number: number)
 
-        foodService.fetchFoods(with: endpoint) { [weak self] result in
+        foodService.fetchFoods(with: endpoint) { (result: Result<FoodModel, FoodServiceError>) in
             switch result {
             case .success(let foods):
-                self?.AllFoods = foods
+                let foodResults = foods.results
+                self.AllFoods = foodResults
             case .failure(let error):
                 print("Failed to fetch foods: \(error.localizedDescription)")
             }

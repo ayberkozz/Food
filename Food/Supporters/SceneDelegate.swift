@@ -16,7 +16,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         let window = UIWindow(windowScene: windowScene)
         
-        let foodService = FoodService()
+        let foodService : FoodServiceProtocol = FoodService()
         let viewModel = FoodViewModel(foodService: foodService)
         let foodMainVC = FoodMainVC(viewModel: viewModel)
         let navigationController = UINavigationController(rootViewController: foodMainVC)
