@@ -7,7 +7,10 @@
 
 import UIKit
 
-class IngredientsVC: UIViewController {
+class IngredientsVC: UIViewController, IngredientsViewModelOutput {
+    
+    private let viewModel : IngredientsViewModel
+    private lazy var foodsByIngredients : [IngredientsModel] = []
     
     private var tv = UITableView()
     
@@ -15,8 +18,25 @@ class IngredientsVC: UIViewController {
     private var selectedItems: [String] = []
     
     
+    init(viewModel: IngredientsViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+        self.viewModel.output = self
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func updateView(values: [IngredientsModel]) {
+        foodsByIngredients = values
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        viewModel.fetchFoodsByIngredients(query: ["apple","flour","sugar"], number: 2)
+        
         style()
         layout()
     }

@@ -18,9 +18,7 @@ class FoodViewModel {
             output?.updateView(values: AllFoods)
         }
     }
-    
-    private(set) var filteredFoods : [FoodDetailModel] = []
-    
+        
     init(foodService: FoodServiceProtocol, output: FoodViewModelOutput? = nil) {
         self.foodService = foodService
     }

@@ -22,7 +22,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let navigationController = UINavigationController(rootViewController: foodMainVC)
         navigationController.tabBarItem = UITabBarItem(title: "Food", image: UIImage(systemName: "fork.knife"), tag: 0)
         
-        let navigationController1 = UINavigationController(rootViewController: IngredientsVC())
+        let IngredientsService : FoodServiceProtocol = FoodService()
+        let viewModel1 = IngredientsViewModel(foodService: IngredientsService)
+        let IngredientsVC = IngredientsVC(viewModel: viewModel1)
+        let navigationController1 = UINavigationController(rootViewController: IngredientsVC)
         navigationController1.tabBarItem = UITabBarItem(title: "Ingredients", image: UIImage(systemName: "takeoutbag.and.cup.and.straw"), tag: 1)
         
         let tabBarController = UITabBarController()

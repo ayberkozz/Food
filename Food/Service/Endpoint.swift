@@ -10,7 +10,7 @@ import Foundation
 enum Endpoint {
 
     case complexSearch(query: String?, maxFat: Int?, number: Int?)
-    case ingredientsSearch(query: String?)
+    case findByIngredients(ingredients: [String], number: Int?)
     
     var request: URLRequest? {
         guard let url = self.url else { return nil }
@@ -22,11 +22,12 @@ enum Endpoint {
     }
     
     private var url: URL? {
-        var components = URLComponents(string: Constants.baseURL)
+        var components: URLComponents?
         var queryItems = [URLQueryItem]()
         
         switch self {
         case .complexSearch(let query, let maxFat, let number):
+            components = URLComponents(string: Constants.baseURL + "/recipes/complexSearch")
             if let query = query {
                 queryItems.append(URLQueryItem(name: "query", value: query))
             }
@@ -37,10 +38,14 @@ enum Endpoint {
                 queryItems.append(URLQueryItem(name: "number", value: String(number)))
             }
             
-        case .ingredientsSearch(let query):
-            if let query = query {
-                queryItems.append(URLQueryItem(name: "query", value: query))
+        case .findByIngredients(let ingredients, let number):
+            components = URLComponents(string: Constants.baseURL + "/recipes/findByIngredients")
+            let ingredientList = ingredients.joined(separator: ",+").addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
+            queryItems.append(URLQueryItem(name: "ingredients", value: ingredientList))
+            if let number = number {
+                queryItems.append(URLQueryItem(name: "number", value: String(number)))
             }
+            
         }
         
         queryItems.append(URLQueryItem(name: "apiKey", value: Constants.API_KEY))
@@ -61,9 +66,7 @@ enum Endpoint {
 extension URLRequest {
     mutating func addValues(for endpoint: Endpoint) {
         switch endpoint {
-        case .complexSearch:
-            self.setValue(HTTP.Headers.Value.applicationJson.rawValue, forHTTPHeaderField: HTTP.Headers.Key.contentType.rawValue)
-        case .ingredientsSearch:
+        case .complexSearch, .findByIngredients:
             self.setValue(HTTP.Headers.Value.applicationJson.rawValue, forHTTPHeaderField: HTTP.Headers.Key.contentType.rawValue)
         }
     }
