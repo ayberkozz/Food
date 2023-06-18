@@ -8,6 +8,6 @@
 import Foundation
 import UIKit
 
-protocol IngredientsViewModelOutput : AnyObject {
-    func updateView(values: [IngredientsModel])
+protocol FoodsByIngredientsViewModelOutput : AnyObject {
+    func updateView(values: [FoodsByIngredientsModel])
 }

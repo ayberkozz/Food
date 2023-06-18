@@ -8,20 +8,20 @@
 import Foundation
 
 // MARK: - DisneyMElement
-struct IngredientsModel: Codable {
+struct FoodsByIngredientsModel: Codable {
     let id: Int
     let image: String
     let imageType: String
     let likes, missedIngredientCount: Int
-    let missedIngredients: [IngredientsDetailModel]
+    let missedIngredients: [FoodsByIngredientsDetailModel]
     let title: String
-    let unusedIngredients: [IngredientsDetailModel]
+    let unusedIngredients: [FoodsByIngredientsDetailModel]
     let usedIngredientCount: Int
-    let usedIngredients: [IngredientsDetailModel]
+    let usedIngredients: [FoodsByIngredientsDetailModel]
 }
 
 // MARK: - SedIngredient
-struct IngredientsDetailModel: Codable {
+struct FoodsByIngredientsDetailModel: Codable {
     let aisle: String
     let amount: Double
     let id: Int

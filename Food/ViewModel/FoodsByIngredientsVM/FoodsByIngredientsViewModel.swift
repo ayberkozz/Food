@@ -8,18 +8,18 @@
 import Foundation
 import UIKit
 
-class IngredientsViewModel {
+class FoodsByIngredientsViewModel {
     
     private let foodService: FoodServiceProtocol
-    weak var output : IngredientsViewModelOutput?
+    weak var output : FoodsByIngredientsViewModelOutput?
     
-    private (set) var AllFoodsByIngredients : [IngredientsModel] = [] {
+    private (set) var AllFoodsByIngredients : [FoodsByIngredientsModel] = [] {
         didSet {
             output?.updateView(values: AllFoodsByIngredients)
         }
     }
     
-    init(foodService: FoodServiceProtocol, output: IngredientsViewModelOutput? = nil) {
+    init(foodService: FoodServiceProtocol, output: FoodsByIngredientsViewModelOutput? = nil) {
         self.foodService = foodService
     }
     
@@ -27,7 +27,7 @@ class IngredientsViewModel {
         
         let endpoint = Endpoint.findByIngredients(ingredients: query, number: number)
         
-        foodService.fetchFoods(with: endpoint) { (result: Result<[IngredientsModel], FoodServiceError>) in
+        foodService.fetchFoods(with: endpoint) { (result: Result<[FoodsByIngredientsModel], FoodServiceError>) in
             switch result {
             case .success(let foodByIngredients):
                 self.AllFoodsByIngredients = foodByIngredients

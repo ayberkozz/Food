@@ -1,41 +1,23 @@
 //
-//  IngredientsVC.swift
+//  ingredientsVC.swift
 //  Food
 //
-//  Created by Ayberk Öz on 15.06.2023.
+//  Created by Ayberk Öz on 17.06.2023.
 //
 
 import UIKit
 
-class IngredientsVC: UIViewController, IngredientsViewModelOutput {
-    
-    private let viewModel : IngredientsViewModel
-    private lazy var foodsByIngredients : [IngredientsModel] = []
+class ingredientsVC: UIViewController {
     
     private var tv = UITableView()
+    private var button = UIButton()
     
-    private let items = ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5"]
+    private let items = ["Apples", "Flour", "Sugar"]
     private var selectedItems: [String] = []
-    
-    
-    init(viewModel: IngredientsViewModel) {
-        self.viewModel = viewModel
-        super.init(nibName: nil, bundle: nil)
-        self.viewModel.output = self
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    func updateView(values: [IngredientsModel]) {
-        foodsByIngredients = values
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        viewModel.fetchFoodsByIngredients(query: ["apple","flour","sugar"], number: 2)
         
         style()
         layout()
@@ -44,7 +26,13 @@ class IngredientsVC: UIViewController, IngredientsViewModelOutput {
     func getSelectedItems() -> [String] {
         return selectedItems
     }
-
+    
+    @objc private func button1() {
+        let viewModel = FoodsByIngredientsViewModel(foodService: FoodService())
+        let nextViewController = FoodsByIngredientsVC(viewModel: viewModel)
+        nextViewController.ingredients = selectedItems
+        navigationController?.pushViewController(nextViewController, animated: true)
+    }
     
     func style() {
         
@@ -55,36 +43,49 @@ class IngredientsVC: UIViewController, IngredientsViewModelOutput {
         self.navigationItem.largeTitleDisplayMode = .always
         
         tv.translatesAutoresizingMaskIntoConstraints = false
-        tv.register(IngredientsTVC.self, forCellReuseIdentifier: IngredientsTVC.reuseIdentifier)
+        tv.register(ingredientsTVC.self, forCellReuseIdentifier: ingredientsTVC.reuseIdentifier)
         tv.delegate = self
         tv.dataSource = self
         tv.allowsMultipleSelection = true
+        
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle("button", for: .normal)
+        button.addTarget(self, action: #selector(button1), for: .touchUpInside)
+        button.setTitleColor(.black, for: UIControl.State.normal)
+        button.backgroundColor = .gray
+        button.layer.cornerRadius = 10
+        button.contentEdgeInsets = UIEdgeInsets(top: 10.0, left: 10.0, bottom: 10.0, right: 10.0)
     }
     
     func layout() {
         
         view.addSubview(tv)
+        view.addSubview(button)
         
         NSLayoutConstraint.activate([
-            tv.topAnchor.constraint(equalTo: view.topAnchor),
-            tv.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            tv.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tv.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            
+            tv.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            tv.widthAnchor.constraint(equalToConstant: view.frame.width),
+            tv.heightAnchor.constraint(equalToConstant: view.frame.height / 2),
+            
+            button.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            button.topAnchor.constraint(equalToSystemSpacingBelow: tv.bottomAnchor, multiplier: 3),
+            
         ])
 
     }
-    
+
 }
 
 // MARK: - UITableViewDataSource
 
-extension IngredientsVC: UITableViewDataSource {
+extension ingredientsVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return items.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: IngredientsTVC.reuseIdentifier, for: indexPath) as! IngredientsTVC
+        let cell = tableView.dequeueReusableCell(withIdentifier: ingredientsTVC.reuseIdentifier, for: indexPath) as! ingredientsTVC
         let item = items[indexPath.row]
         cell.textLabel?.text = item
         cell.isSelectedItem = selectedItems.contains(item)
@@ -94,7 +95,7 @@ extension IngredientsVC: UITableViewDataSource {
 
 // MARK: - UITableViewDelegate
 
-extension IngredientsVC: UITableViewDelegate {
+extension ingredientsVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedItem = items[indexPath.row]
         selectedItems.append(selectedItem)
@@ -107,5 +108,3 @@ extension IngredientsVC: UITableViewDelegate {
         }
     }
 }
-
-
