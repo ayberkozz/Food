@@ -15,7 +15,6 @@ struct FoodsByIngredientsModel: Codable {
     let likes, missedIngredientCount: Int
     let missedIngredients: [FoodsByIngredientsDetailModel]
     let title: String
-    let unusedIngredients: [FoodsByIngredientsDetailModel]
     let usedIngredientCount: Int
     let usedIngredients: [FoodsByIngredientsDetailModel]
 }

@@ -15,8 +15,8 @@ class FoodsByIngredientsTVC: UICollectionViewCell {
     private let Vstack : UIStackView = {
         let Vstack = UIStackView()
         Vstack.axis = .vertical
-        Vstack.spacing = 3
-        Vstack.alignment = .center
+        Vstack.spacing = 10
+        Vstack.alignment = .leading
         return Vstack
     }()
     
@@ -24,54 +24,69 @@ class FoodsByIngredientsTVC: UICollectionViewCell {
         let nameLabel = UILabel()
         nameLabel.textColor = .white
         nameLabel.textAlignment = .left
-        nameLabel.font = .systemFont(ofSize: 15, weight: .medium)
-        nameLabel.numberOfLines = 1
+        nameLabel.font = .systemFont(ofSize: 20, weight: .medium)
+        nameLabel.numberOfLines = 0
         return nameLabel
     }()
     
-    private let foodImage : UILabel = {
-        let foodImage = UILabel()
-        foodImage.textColor = .white
-        foodImage.textAlignment = .left
-        foodImage.font = .systemFont(ofSize: 24, weight: .thin)
-        foodImage.numberOfLines = 0
-        return foodImage
+    private let usedIngredientsCount : UILabel = {
+        let usedIngredients = UILabel()
+        usedIngredients.textColor = .white
+        usedIngredients.textAlignment = .left
+        usedIngredients.font = .systemFont(ofSize: 18, weight: .semibold)
+        usedIngredients.numberOfLines = 0
+        return usedIngredients
     }()
     
+    private let UnusedIngredientsCount : UILabel = {
+        let UnusedIngredientsCount = UILabel()
+        UnusedIngredientsCount.textColor = .white
+        UnusedIngredientsCount.textAlignment = .left
+        UnusedIngredientsCount.font = .systemFont(ofSize: 18, weight: .semibold)
+        UnusedIngredientsCount.numberOfLines = 0
+        return UnusedIngredientsCount
+    }()
+    
+    private let likeCount : UILabel = {
+        let likeCount = UILabel()
+        likeCount.textColor = .white
+        likeCount.textAlignment = .left
+        likeCount.font = .systemFont(ofSize: 18, weight: .semibold)
+        likeCount.numberOfLines = 0
+        return likeCount
+    }()
     
     override func layoutSubviews() {
         super.layoutSubviews()
         contentView.layer.cornerRadius = 20
     }
     
+    
     func layout() {
-        
         contentView.backgroundColor = UIColor.systemGreen
         contentView.addSubview(Vstack)
         
         Vstack.addArrangedSubview(nameLabel)
-        Vstack.addArrangedSubview(foodImage)
-        
+        Vstack.addArrangedSubview(usedIngredientsCount)
+        Vstack.addArrangedSubview(UnusedIngredientsCount)
+        Vstack.addArrangedSubview(likeCount)
+
         Vstack.translatesAutoresizingMaskIntoConstraints = false
-        foodImage.translatesAutoresizingMaskIntoConstraints = false
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
+        usedIngredientsCount.translatesAutoresizingMaskIntoConstraints = false
+        UnusedIngredientsCount.translatesAutoresizingMaskIntoConstraints = false
+        likeCount.translatesAutoresizingMaskIntoConstraints = false
 
         NSLayoutConstraint.activate([
             
-            Vstack.heightAnchor.constraint(equalTo: contentView.heightAnchor),
-            Vstack.widthAnchor.constraint(equalTo: contentView.widthAnchor),
-            Vstack.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-
-            nameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 2),
-            nameLabel.centerXAnchor.constraint(equalTo: Vstack.centerXAnchor),
+            Vstack.topAnchor.constraint(equalToSystemSpacingBelow: contentView.topAnchor, multiplier: 1),
+            Vstack.leadingAnchor.constraint(equalToSystemSpacingAfter: contentView.leadingAnchor, multiplier: 1),
+            Vstack.trailingAnchor.constraint(equalToSystemSpacingAfter: contentView.trailingAnchor, multiplier: -1)
             
-            foodImage.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 2),
-            foodImage.centerXAnchor.constraint(equalTo: Vstack.centerXAnchor)
-
         ])
-        
     }
-    
+
+
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -85,14 +100,18 @@ class FoodsByIngredientsTVC: UICollectionViewCell {
     public func configure(with food: FoodsByIngredientsModel) {
         self.food = food
         self.nameLabel.text = food.title
-        self.foodImage.text = food.image
+        self.usedIngredientsCount.text = "✅Used Ingredients Count:\(food.usedIngredientCount)"
+        self.UnusedIngredientsCount.text = "❌Unused Ingredients Count:\(food.missedIngredientCount)"
+        self.likeCount.text = "👍🏻\(food.likes)"
     }
     
     //MARK: - PrepareForReuse
     override func prepareForReuse() {
         super.prepareForReuse()
         self.nameLabel.text = nil
-        self.foodImage.text = nil
+        self.usedIngredientsCount.text = nil
+        self.UnusedIngredientsCount.text = nil
+        self.likeCount.text = nil
     }
 }
 
