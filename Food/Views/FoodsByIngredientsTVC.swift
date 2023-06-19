@@ -6,11 +6,20 @@
 //
 
 import UIKit
+import SDWebImage
 
 class FoodsByIngredientsTVC: UICollectionViewCell {
     
     static let reuseIdentifier = "IngredientsTVCIdentifier"
     private(set) var food : FoodsByIngredientsModel!
+    
+    private let Hstack : UIStackView = {
+        let Hstack = UIStackView()
+        Hstack.axis = .horizontal
+        Hstack.spacing = 1
+        Hstack.alignment = .center
+        return Hstack
+    }()
     
     private let Vstack : UIStackView = {
         let Vstack = UIStackView()
@@ -20,11 +29,18 @@ class FoodsByIngredientsTVC: UICollectionViewCell {
         return Vstack
     }()
     
+    private let foodImage : UIImageView = {
+        let foodImage = UIImageView()
+        foodImage.contentMode = .scaleToFill
+        foodImage.clipsToBounds = true
+        return foodImage
+    }()
+    
     private let nameLabel : UILabel = {
         let nameLabel = UILabel()
         nameLabel.textColor = .white
         nameLabel.textAlignment = .left
-        nameLabel.font = .systemFont(ofSize: 20, weight: .medium)
+        nameLabel.font = .systemFont(ofSize: 18, weight: .medium)
         nameLabel.numberOfLines = 0
         return nameLabel
     }()
@@ -33,7 +49,7 @@ class FoodsByIngredientsTVC: UICollectionViewCell {
         let usedIngredients = UILabel()
         usedIngredients.textColor = .white
         usedIngredients.textAlignment = .left
-        usedIngredients.font = .systemFont(ofSize: 18, weight: .semibold)
+        usedIngredients.font = .systemFont(ofSize: 15, weight: .semibold)
         usedIngredients.numberOfLines = 0
         return usedIngredients
     }()
@@ -42,7 +58,7 @@ class FoodsByIngredientsTVC: UICollectionViewCell {
         let UnusedIngredientsCount = UILabel()
         UnusedIngredientsCount.textColor = .white
         UnusedIngredientsCount.textAlignment = .left
-        UnusedIngredientsCount.font = .systemFont(ofSize: 18, weight: .semibold)
+        UnusedIngredientsCount.font = .systemFont(ofSize: 15, weight: .semibold)
         UnusedIngredientsCount.numberOfLines = 0
         return UnusedIngredientsCount
     }()
@@ -51,7 +67,7 @@ class FoodsByIngredientsTVC: UICollectionViewCell {
         let likeCount = UILabel()
         likeCount.textColor = .white
         likeCount.textAlignment = .left
-        likeCount.font = .systemFont(ofSize: 18, weight: .semibold)
+        likeCount.font = .systemFont(ofSize: 15, weight: .semibold)
         likeCount.numberOfLines = 0
         return likeCount
     }()
@@ -64,14 +80,20 @@ class FoodsByIngredientsTVC: UICollectionViewCell {
     
     func layout() {
         contentView.backgroundColor = UIColor.systemGreen
-        contentView.addSubview(Vstack)
+        
+        contentView.addSubview(Hstack)
+
+        Hstack.addArrangedSubview(Vstack)
+        Hstack.addArrangedSubview(foodImage)
         
         Vstack.addArrangedSubview(nameLabel)
         Vstack.addArrangedSubview(usedIngredientsCount)
         Vstack.addArrangedSubview(UnusedIngredientsCount)
         Vstack.addArrangedSubview(likeCount)
 
+        Hstack.translatesAutoresizingMaskIntoConstraints = false
         Vstack.translatesAutoresizingMaskIntoConstraints = false
+        foodImage.translatesAutoresizingMaskIntoConstraints = false
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
         usedIngredientsCount.translatesAutoresizingMaskIntoConstraints = false
         UnusedIngredientsCount.translatesAutoresizingMaskIntoConstraints = false
@@ -79,9 +101,17 @@ class FoodsByIngredientsTVC: UICollectionViewCell {
 
         NSLayoutConstraint.activate([
             
-            Vstack.topAnchor.constraint(equalToSystemSpacingBelow: contentView.topAnchor, multiplier: 1),
-            Vstack.leadingAnchor.constraint(equalToSystemSpacingAfter: contentView.leadingAnchor, multiplier: 1),
-            Vstack.trailingAnchor.constraint(equalToSystemSpacingAfter: contentView.trailingAnchor, multiplier: -1)
+            Hstack.topAnchor.constraint(equalToSystemSpacingBelow: contentView.topAnchor, multiplier: 1),
+            Hstack.leadingAnchor.constraint(equalToSystemSpacingAfter: contentView.leadingAnchor, multiplier: 1),
+            Hstack.trailingAnchor.constraint(equalToSystemSpacingAfter: contentView.trailingAnchor, multiplier: -1),
+            
+            Vstack.topAnchor.constraint(equalTo: Hstack.topAnchor),
+            Vstack.leadingAnchor.constraint(equalTo: Hstack.leadingAnchor),
+            Vstack.trailingAnchor.constraint(equalTo: Hstack.trailingAnchor),
+            
+            foodImage.heightAnchor.constraint(equalToConstant: contentView.frame.size.height / 2),
+            foodImage.widthAnchor.constraint(equalToConstant: contentView.frame.size.width / 3),
+            foodImage.trailingAnchor.constraint(equalToSystemSpacingAfter: Hstack.trailingAnchor, multiplier: -1)
             
         ])
     }
@@ -103,6 +133,15 @@ class FoodsByIngredientsTVC: UICollectionViewCell {
         self.usedIngredientsCount.text = "✅Used Ingredients Count:\(food.usedIngredientCount)"
         self.UnusedIngredientsCount.text = "❌Unused Ingredients Count:\(food.missedIngredientCount)"
         self.likeCount.text = "👍🏻\(food.likes)"
+        self.foodImage.sd_setImage(with: URL(string: food.image)) { image, error, cacheType, url in
+            if let error = error {
+                print("Error loading image: \(error)🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴")
+                self.foodImage.image = UIImage(systemName: "birthday.cake")
+            } else {
+                print("Image loaded successfully✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅")
+            }
+        }
+        print(food.image)
     }
     
     //MARK: - PrepareForReuse
@@ -112,6 +151,7 @@ class FoodsByIngredientsTVC: UICollectionViewCell {
         self.usedIngredientsCount.text = nil
         self.UnusedIngredientsCount.text = nil
         self.likeCount.text = nil
+        self.foodImage.image = nil
     }
 }
 
