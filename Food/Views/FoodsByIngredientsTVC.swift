@@ -31,7 +31,7 @@ class FoodsByIngredientsTVC: UICollectionViewCell {
     
     private let foodImage : UIImageView = {
         let foodImage = UIImageView()
-        foodImage.contentMode = .scaleToFill
+        foodImage.contentMode = .scaleAspectFit
         foodImage.clipsToBounds = true
         return foodImage
     }()
@@ -40,7 +40,7 @@ class FoodsByIngredientsTVC: UICollectionViewCell {
         let nameLabel = UILabel()
         nameLabel.textColor = .white
         nameLabel.textAlignment = .left
-        nameLabel.font = .systemFont(ofSize: 18, weight: .medium)
+        nameLabel.font = .systemFont(ofSize: 15, weight: .semibold)
         nameLabel.numberOfLines = 0
         return nameLabel
     }()
@@ -49,7 +49,7 @@ class FoodsByIngredientsTVC: UICollectionViewCell {
         let usedIngredients = UILabel()
         usedIngredients.textColor = .white
         usedIngredients.textAlignment = .left
-        usedIngredients.font = .systemFont(ofSize: 15, weight: .semibold)
+        usedIngredients.font = .systemFont(ofSize: 15, weight: .medium)
         usedIngredients.numberOfLines = 0
         return usedIngredients
     }()
@@ -58,7 +58,7 @@ class FoodsByIngredientsTVC: UICollectionViewCell {
         let UnusedIngredientsCount = UILabel()
         UnusedIngredientsCount.textColor = .white
         UnusedIngredientsCount.textAlignment = .left
-        UnusedIngredientsCount.font = .systemFont(ofSize: 15, weight: .semibold)
+        UnusedIngredientsCount.font = .systemFont(ofSize: 15, weight: .medium)
         UnusedIngredientsCount.numberOfLines = 0
         return UnusedIngredientsCount
     }()
@@ -67,7 +67,7 @@ class FoodsByIngredientsTVC: UICollectionViewCell {
         let likeCount = UILabel()
         likeCount.textColor = .white
         likeCount.textAlignment = .left
-        likeCount.font = .systemFont(ofSize: 15, weight: .semibold)
+        likeCount.font = .systemFont(ofSize: 15, weight: .medium)
         likeCount.numberOfLines = 0
         return likeCount
     }()
@@ -109,9 +109,10 @@ class FoodsByIngredientsTVC: UICollectionViewCell {
             Vstack.leadingAnchor.constraint(equalTo: Hstack.leadingAnchor),
             Vstack.trailingAnchor.constraint(equalTo: Hstack.trailingAnchor),
             
-            foodImage.heightAnchor.constraint(equalToConstant: contentView.frame.size.height / 2),
+            foodImage.heightAnchor.constraint(equalToConstant: contentView.frame.size.height / 1.5),
             foodImage.widthAnchor.constraint(equalToConstant: contentView.frame.size.width / 3),
-            foodImage.trailingAnchor.constraint(equalToSystemSpacingAfter: Hstack.trailingAnchor, multiplier: -1)
+            foodImage.trailingAnchor.constraint(equalToSystemSpacingAfter: Hstack.trailingAnchor, multiplier: -1),
+            foodImage.centerYAnchor.constraint(equalToSystemSpacingBelow: Hstack.centerYAnchor, multiplier: 2),
             
         ])
     }

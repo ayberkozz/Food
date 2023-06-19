@@ -16,7 +16,7 @@ class CustomCollectionViewCell: UICollectionViewCell {
     private let Vstack : UIStackView = {
         let Vstack = UIStackView()
         Vstack.axis = .vertical
-        Vstack.spacing = 3
+        Vstack.spacing = 2
         Vstack.alignment = .center
         return Vstack
     }()
@@ -30,9 +30,9 @@ class CustomCollectionViewCell: UICollectionViewCell {
     
     private let title : UILabel = {
         let title = UILabel()
-        title.textColor = .black
+        title.textColor = .white
         title.textAlignment = .left
-        title.font = .systemFont(ofSize: 20, weight: .light)
+        title.font = .systemFont(ofSize: 20, weight: .semibold)
         title.numberOfLines = 0
         return title
     }()
@@ -45,7 +45,7 @@ class CustomCollectionViewCell: UICollectionViewCell {
     
     func layout() {
         
-        contentView.backgroundColor = .white
+        contentView.backgroundColor = .systemGreen
         contentView.addSubview(Vstack)
         
         Vstack.addArrangedSubview(foodImage)

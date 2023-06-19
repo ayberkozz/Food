@@ -20,6 +20,9 @@ class FoodMainVC: UIViewController, FoodViewModelOutput {
     private var numberButton = UIButton()
     private var searchButton = UIButton()
     
+    private var searchLabel = UILabel()
+    private var emptyLabel = UILabel()
+    
     private var collectionView : UICollectionView!
     
     var maxFat = Int()
@@ -59,16 +62,14 @@ class FoodMainVC: UIViewController, FoodViewModelOutput {
         foods = values
         DispatchQueue.main.async {
             self.collectionView.reloadData()
+            self.updateEmptyLabelVisibility()
+            self.updateSearchLabelVisibility()
         }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        view.backgroundColor = .systemGreen
-        self.navigationItem.title = "Food🥘"
-        self.navigationController?.navigationBar.prefersLargeTitles = true
-        self.navigationItem.largeTitleDisplayMode = .always
+
                 
         setupDropdownMenu()
         style()
@@ -103,6 +104,12 @@ class FoodMainVC: UIViewController, FoodViewModelOutput {
     
     func style() {
         
+        view.backgroundColor = .white
+        
+        self.navigationItem.title = "Food🥘"
+        self.navigationController?.navigationBar.prefersLargeTitles = true
+        self.navigationItem.largeTitleDisplayMode = .always
+        
         self.searchController.obscuresBackgroundDuringPresentation = false
         self.searchController.hidesNavigationBarDuringPresentation = false
         self.searchController.searchBar.placeholder = "Search Character"
@@ -122,24 +129,24 @@ class FoodMainVC: UIViewController, FoodViewModelOutput {
         dropdownButton.translatesAutoresizingMaskIntoConstraints = false
         dropdownButton.setTitle("Max Fat", for: .normal)
         dropdownButton.addTarget(self, action: #selector(showDropdownMenu), for: .touchUpInside)
-        dropdownButton.setTitleColor(.black, for: UIControl.State.normal)
-        dropdownButton.backgroundColor = .white
+        dropdownButton.setTitleColor(.white, for: UIControl.State.normal)
+        dropdownButton.backgroundColor = .systemGreen
         dropdownButton.layer.cornerRadius = 10
         dropdownButton.contentEdgeInsets = UIEdgeInsets(top: 10.0, left: 10.0, bottom: 10.0, right: 10.0)
         
         numberButton.translatesAutoresizingMaskIntoConstraints = false
         numberButton.setTitle("Number", for: .normal)
         numberButton.addTarget(self, action: #selector(showNumberdownMenu), for: .touchUpInside)
-        numberButton.setTitleColor(.black, for: UIControl.State.normal)
-        numberButton.backgroundColor = .white
+        numberButton.setTitleColor(.white, for: UIControl.State.normal)
+        numberButton.backgroundColor = .systemGreen
         numberButton.layer.cornerRadius = 10
         numberButton.contentEdgeInsets = UIEdgeInsets(top: 10.0, left: 10.0, bottom: 10.0, right: 10.0)
 
         searchButton.translatesAutoresizingMaskIntoConstraints = false
         searchButton.setTitle("Search", for: .normal)
         searchButton.addTarget(self, action: #selector(searchButtonPressed), for: .touchUpInside)
-        searchButton.setTitleColor(.black, for: UIControl.State.normal)
-        searchButton.backgroundColor = .white
+        searchButton.setTitleColor(.white, for: UIControl.State.normal)
+        searchButton.backgroundColor = .systemGreen
         searchButton.layer.cornerRadius = 10
         searchButton.contentEdgeInsets = UIEdgeInsets(top: 10.0, left: 10.0, bottom: 10.0, right: 10.0)
         
@@ -149,12 +156,25 @@ class FoodMainVC: UIViewController, FoodViewModelOutput {
         collectionView.register(CustomCollectionViewCell.self, forCellWithReuseIdentifier: CustomCollectionViewCell.identifier)
         collectionView.delegate = self
         collectionView.dataSource = self
-        collectionView.backgroundColor = .systemGreen
+        collectionView.backgroundColor = .systemBackground
+    
+        emptyLabel.translatesAutoresizingMaskIntoConstraints = false
+        emptyLabel.text = "We can't find anything😞"
+        emptyLabel.textColor = UIColor.systemGray
+        emptyLabel.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
+        
+        searchLabel.translatesAutoresizingMaskIntoConstraints = false
+        searchLabel.text = "Welcome! Start by searching foods😋"
+        searchLabel.textColor = UIColor.systemGray
+        searchLabel.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
+        
     }
     
     func layout() {
+        
         view.addSubview(ButtonStack)
         view.addSubview(collectionView)
+        view.addSubview(searchLabel)
         
         ButtonStack.addArrangedSubview(dropdownButton)
         ButtonStack.addArrangedSubview(numberButton)
@@ -172,15 +192,43 @@ class FoodMainVC: UIViewController, FoodViewModelOutput {
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
             
+            searchLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            searchLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
     }
+    
+    private func updateSearchLabelVisibility() {
+        if searchController.searchBar.text?.isEmpty ?? true {
+            searchLabel.isHidden = false
+        } else {
+            searchLabel.isHidden = true
+        }
+    }
+
+    
+    private func updateEmptyLabelVisibility() {
+        if foods.isEmpty && emptyLabel.superview == nil {
+            view.addSubview(emptyLabel)
+            NSLayoutConstraint.activate([
+                emptyLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+                emptyLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+            ])
+        } else if !foods.isEmpty && emptyLabel.superview != nil {
+            emptyLabel.removeFromSuperview()
+        }
+    }
+    
 }
 
 //MARK: - Collection View
 extension FoodMainVC: UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return foods.count
+        if foods.isEmpty {
+            return 0
+        } else {
+            return foods.count
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

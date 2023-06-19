@@ -49,10 +49,10 @@ class ingredientsVC: UIViewController {
         tv.allowsMultipleSelection = true
         
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("button", for: .normal)
+        button.setTitle("Search🥄", for: .normal)
         button.addTarget(self, action: #selector(button1), for: .touchUpInside)
-        button.setTitleColor(.black, for: UIControl.State.normal)
-        button.backgroundColor = .gray
+        button.setTitleColor(.white, for: UIControl.State.normal)
+        button.backgroundColor = .systemGreen
         button.layer.cornerRadius = 10
         button.contentEdgeInsets = UIEdgeInsets(top: 10.0, left: 10.0, bottom: 10.0, right: 10.0)
     }
@@ -69,8 +69,8 @@ class ingredientsVC: UIViewController {
             tv.heightAnchor.constraint(equalToConstant: view.frame.height / 2),
             
             button.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            button.topAnchor.constraint(equalToSystemSpacingBelow: tv.bottomAnchor, multiplier: 3),
-            
+            button.widthAnchor.constraint(equalToConstant: view.frame.width / 1.1),
+            button.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20)
         ])
 
     }
