@@ -70,7 +70,7 @@ class FoodMainVC: UIViewController, FoodViewModelOutput {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-                
+        setupTapGestureRecognizer()
         setupDropdownMenu()
         style()
         layout()
@@ -87,6 +87,16 @@ class FoodMainVC: UIViewController, FoodViewModelOutput {
             self?.number = Int(item1)!
         }
     }
+    
+    private func setupTapGestureRecognizer() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))
+        tapGesture.cancelsTouchesInView = false
+        view.addGestureRecognizer(tapGesture)
+    }
+
+    @objc private func handleTap() {
+        searchController.searchBar.resignFirstResponder()
+    }
 
     @objc private func showDropdownMenu() {
         menu.show()
@@ -97,7 +107,7 @@ class FoodMainVC: UIViewController, FoodViewModelOutput {
     }
 
     @objc private func searchButtonPressed() {
-        viewModel.fetchFoods(query: searchController.searchBar.text, maxFat: maxFat, number: number)
+        viewModel.fetchFoods(query: searchController.searchBar.text, maxFat: maxFat/*, number: number*/)
     }
     
     
@@ -153,7 +163,7 @@ class FoodMainVC: UIViewController, FoodViewModelOutput {
         let layout = UICollectionViewFlowLayout()
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.register(CustomCollectionViewCell.self, forCellWithReuseIdentifier: CustomCollectionViewCell.identifier)
+        collectionView.register(FoodsMainTVC.self, forCellWithReuseIdentifier: FoodsMainTVC.identifier)
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.backgroundColor = .systemBackground
@@ -187,7 +197,7 @@ class FoodMainVC: UIViewController, FoodViewModelOutput {
             ButtonStack.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             
             collectionView.topAnchor.constraint(equalToSystemSpacingBelow: ButtonStack.bottomAnchor, multiplier: 5),
-            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             collectionView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
@@ -232,7 +242,7 @@ extension FoodMainVC: UICollectionViewDelegate,UICollectionViewDataSource,UIColl
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CustomCollectionViewCell", for: indexPath) as! CustomCollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CustomCollectionViewCell", for: indexPath) as! FoodsMainTVC
         cell.configure(with: foods[indexPath.row])
         return cell
     }

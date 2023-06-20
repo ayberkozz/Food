@@ -16,7 +16,6 @@ class FoodsByIngredientsTVC: UICollectionViewCell {
     private let Hstack : UIStackView = {
         let Hstack = UIStackView()
         Hstack.axis = .horizontal
-        Hstack.spacing = 1
         Hstack.alignment = .center
         return Hstack
     }()
@@ -75,12 +74,14 @@ class FoodsByIngredientsTVC: UICollectionViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         contentView.layer.cornerRadius = 20
+        foodImage.layer.cornerRadius = 15
     }
     
     
     func layout() {
         contentView.backgroundColor = UIColor.systemGreen
-        
+        self.foodImage.tintColor = UIColor.black
+
         contentView.addSubview(Hstack)
 
         Hstack.addArrangedSubview(Vstack)
@@ -98,27 +99,20 @@ class FoodsByIngredientsTVC: UICollectionViewCell {
         usedIngredientsCount.translatesAutoresizingMaskIntoConstraints = false
         UnusedIngredientsCount.translatesAutoresizingMaskIntoConstraints = false
         likeCount.translatesAutoresizingMaskIntoConstraints = false
-
+        
         NSLayoutConstraint.activate([
             
-            Hstack.topAnchor.constraint(equalToSystemSpacingBelow: contentView.topAnchor, multiplier: 1),
-            Hstack.leadingAnchor.constraint(equalToSystemSpacingAfter: contentView.leadingAnchor, multiplier: 1),
-            Hstack.trailingAnchor.constraint(equalToSystemSpacingAfter: contentView.trailingAnchor, multiplier: -1),
+            Hstack.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
+            Hstack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
+            Hstack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
+            Hstack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
             
-            Vstack.topAnchor.constraint(equalTo: Hstack.topAnchor),
-            Vstack.leadingAnchor.constraint(equalTo: Hstack.leadingAnchor),
-            Vstack.trailingAnchor.constraint(equalTo: Hstack.trailingAnchor),
-            
-            foodImage.heightAnchor.constraint(equalToConstant: contentView.frame.size.height / 1.5),
-            foodImage.widthAnchor.constraint(equalToConstant: contentView.frame.size.width / 3),
-            foodImage.trailingAnchor.constraint(equalToSystemSpacingAfter: Hstack.trailingAnchor, multiplier: -1),
-            foodImage.centerYAnchor.constraint(equalToSystemSpacingBelow: Hstack.centerYAnchor, multiplier: 2),
+            foodImage.heightAnchor.constraint(equalToConstant: contentView.frame.size.height / 1.8),
+            foodImage.widthAnchor.constraint(equalToConstant: contentView.frame.size.width / 3.8),
             
         ])
     }
-
-
-    
+        
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.layout()
@@ -137,12 +131,11 @@ class FoodsByIngredientsTVC: UICollectionViewCell {
         self.foodImage.sd_setImage(with: URL(string: food.image)) { image, error, cacheType, url in
             if let error = error {
                 print("Error loading image: \(error)🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴")
-                self.foodImage.image = UIImage(systemName: "birthday.cake")
+                self.foodImage.image = UIImage(systemName: "photo")
             } else {
                 print("Image loaded successfully✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅")
             }
         }
-        print(food.image)
     }
     
     //MARK: - PrepareForReuse

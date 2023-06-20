@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4B2018DA2A39BC350043F705 /* CustomCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B2018D92A39BC350043F705 /* CustomCollectionViewCell.swift */; };
+		4B2018DA2A39BC350043F705 /* FoodsMainTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B2018D92A39BC350043F705 /* FoodsMainTVC.swift */; };
 		4B2018DD2A39BE220043F705 /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 4B2018DC2A39BE220043F705 /* SDWebImage */; };
 		4B492DE22A3A757D00A8579B /* FoodsByIngredientsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B492DE12A3A757D00A8579B /* FoodsByIngredientsVC.swift */; };
 		4B492DE42A3A7BBE00A8579B /* FoodsByIngredientsTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B492DE32A3A7BBD00A8579B /* FoodsByIngredientsTVC.swift */; };
@@ -33,7 +33,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		4B2018D92A39BC350043F705 /* CustomCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCollectionViewCell.swift; sourceTree = "<group>"; };
+		4B2018D92A39BC350043F705 /* FoodsMainTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodsMainTVC.swift; sourceTree = "<group>"; };
 		4B492DE12A3A757D00A8579B /* FoodsByIngredientsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodsByIngredientsVC.swift; sourceTree = "<group>"; };
 		4B492DE32A3A7BBD00A8579B /* FoodsByIngredientsTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodsByIngredientsTVC.swift; sourceTree = "<group>"; };
 		4B4F0DD32A331D7A00D3F8EA /* Food.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Food.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -77,7 +77,7 @@
 		4B2018D82A39BC120043F705 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				4B2018D92A39BC350043F705 /* CustomCollectionViewCell.swift */,
+				4B2018D92A39BC350043F705 /* FoodsMainTVC.swift */,
 				4BFDE8B42A3E506B00568381 /* ingredientsTVC.swift */,
 				4B492DE32A3A7BBD00A8579B /* FoodsByIngredientsTVC.swift */,
 			);
@@ -129,8 +129,8 @@
 		4B4F0DEB2A331DCE00D3F8EA /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				4BFDE8B62A3E50A200568381 /* ingredientsVM */,
 				4BFDE8AA2A3D26C100568381 /* FoodMainVM */,
+				4BFDE8B62A3E50A200568381 /* ingredientsVM */,
 				4BFDE8AB2A3D26D400568381 /* FoodsByIngredientsVM */,
 			);
 			path = ViewModel;
@@ -348,7 +348,7 @@
 				4B5642AE2A3BBDDB0000F421 /* FoodsByIngredientsModel.swift in Sources */,
 				4B4F0DF02A331DFE00D3F8EA /* FoodModel.swift in Sources */,
 				4B88DF232A37C15C00393E0D /* Constants.swift in Sources */,
-				4B2018DA2A39BC350043F705 /* CustomCollectionViewCell.swift in Sources */,
+				4B2018DA2A39BC350043F705 /* FoodsMainTVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -23,9 +23,9 @@ class FoodsByIngredientsViewModel {
         self.foodService = foodService
     }
     
-    func fetchFoodsByIngredients(query : [String], number: Int?) {
+    func fetchFoodsByIngredients(query : [String]/*, number: Int?*/) {
         
-        let endpoint = Endpoint.findByIngredients(ingredients: query, number: number)
+        let endpoint = Endpoint.findByIngredients(ingredients: query/*, number: number*/)
         
         foodService.fetchFoods(with: endpoint) { (result: Result<[FoodsByIngredientsModel], FoodServiceError>) in
             switch result {
