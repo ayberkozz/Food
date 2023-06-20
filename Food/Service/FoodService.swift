@@ -34,7 +34,6 @@ class FoodService : FoodServiceProtocol {
             }
             
             if let data = data {
-//                print(String(data: data, encoding: .utf8))
                 do {
                     let decoder = JSONDecoder()
                     let decodedData = try decoder.decode(T.self, from: data)

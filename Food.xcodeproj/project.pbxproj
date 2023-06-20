@@ -24,6 +24,7 @@
 		4B88DF1F2A37C13C00393E0D /* FoodService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B88DF1E2A37C13C00393E0D /* FoodService.swift */; };
 		4B88DF212A37C14500393E0D /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B88DF202A37C14500393E0D /* Endpoint.swift */; };
 		4B88DF232A37C15C00393E0D /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B88DF222A37C15C00393E0D /* Constants.swift */; };
+		4BBB40482A41E9D700B50999 /* ButtonCV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BBB40472A41E9D700B50999 /* ButtonCV.swift */; };
 		4BFDE8AD2A3D26EE00568381 /* FoodsByIngredientsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BFDE8AC2A3D26EE00568381 /* FoodsByIngredientsViewModel.swift */; };
 		4BFDE8AF2A3D271400568381 /* IngredientsViewModelStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BFDE8AE2A3D271400568381 /* IngredientsViewModelStorage.swift */; };
 		4BFDE8B32A3E4FE500568381 /* ingredientsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BFDE8B22A3E4FE500568381 /* ingredientsVC.swift */; };
@@ -51,6 +52,7 @@
 		4B88DF1E2A37C13C00393E0D /* FoodService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodService.swift; sourceTree = "<group>"; };
 		4B88DF202A37C14500393E0D /* Endpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoint.swift; sourceTree = "<group>"; };
 		4B88DF222A37C15C00393E0D /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		4BBB40472A41E9D700B50999 /* ButtonCV.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonCV.swift; sourceTree = "<group>"; };
 		4BFDE8AC2A3D26EE00568381 /* FoodsByIngredientsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodsByIngredientsViewModel.swift; sourceTree = "<group>"; };
 		4BFDE8AE2A3D271400568381 /* IngredientsViewModelStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientsViewModelStorage.swift; sourceTree = "<group>"; };
 		4BFDE8B22A3E4FE500568381 /* ingredientsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ingredientsVC.swift; sourceTree = "<group>"; };
@@ -78,6 +80,7 @@
 			isa = PBXGroup;
 			children = (
 				4B2018D92A39BC350043F705 /* FoodsMainTVC.swift */,
+				4BBB40472A41E9D700B50999 /* ButtonCV.swift */,
 				4BFDE8B42A3E506B00568381 /* ingredientsTVC.swift */,
 				4B492DE32A3A7BBD00A8579B /* FoodsByIngredientsTVC.swift */,
 			);
@@ -348,6 +351,7 @@
 				4B5642AE2A3BBDDB0000F421 /* FoodsByIngredientsModel.swift in Sources */,
 				4B4F0DF02A331DFE00D3F8EA /* FoodModel.swift in Sources */,
 				4B88DF232A37C15C00393E0D /* Constants.swift in Sources */,
+				4BBB40482A41E9D700B50999 /* ButtonCV.swift in Sources */,
 				4B2018DA2A39BC350043F705 /* FoodsMainTVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

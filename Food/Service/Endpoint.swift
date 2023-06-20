@@ -9,7 +9,7 @@ import Foundation
 
 enum Endpoint {
 
-    case complexSearch(query: String?, maxFat: Int?/*, number: Int?*/)
+    case complexSearch(query: String?, maxFat: Int?, number: Int?)
     case findByIngredients(ingredients: [String]/*, number: Int?*/)
     
     var request: URLRequest? {
@@ -26,7 +26,7 @@ enum Endpoint {
         var queryItems = [URLQueryItem]()
         
         switch self {
-        case .complexSearch(let query, let maxFat/*, let number*/):
+        case .complexSearch(let query, let maxFat, let number):
             components = URLComponents(string: Constants.baseURL + "/recipes/complexSearch")
             if let query = query {
                 queryItems.append(URLQueryItem(name: "query", value: query))
@@ -34,9 +34,9 @@ enum Endpoint {
             if let maxFat = maxFat {
                 queryItems.append(URLQueryItem(name: "maxFat", value: String(maxFat)))
             }
-//            if let number = number {
-//                queryItems.append(URLQueryItem(name: "number", value: String(number)))
-//            }
+            if let number = number {
+                queryItems.append(URLQueryItem(name: "number", value: String(number)))
+            }
             
         case .findByIngredients(let ingredients/*, let number*/):
             components = URLComponents(string: Constants.baseURL + "/recipes/findByIngredients")

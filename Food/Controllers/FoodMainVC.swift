@@ -16,14 +16,18 @@ class FoodMainVC: UIViewController, FoodViewModelOutput {
     private let searchController = UISearchController(searchResultsController: nil)
     
     private var ButtonStack = UIStackView()
-    private var dropdownButton = UIButton()
+    private var maxFatButton = UIButton()
     private var numberButton = UIButton()
     private var searchButton = UIButton()
-    
+    private var button = UIButton()
+
     private var searchLabel = UILabel()
     private var emptyLabel = UILabel()
     
-    private var collectionView : UICollectionView!
+    private var buttonScrollView = UIScrollView()
+    
+    private var FoodsCV : UICollectionView!
+    private var ButtonCV : UICollectionView!
     
     var maxFat = Int()
     var number = Int()
@@ -31,9 +35,7 @@ class FoodMainVC: UIViewController, FoodViewModelOutput {
     let menu: DropDown = {
         let menu = DropDown()
         menu.dataSource = [
-            "25",
-            "2",
-            "3"
+            "0","10","15","20","25","30","35","40","45","50","60","70","80","90","100","200"
         ]
         return menu
     }()
@@ -41,9 +43,7 @@ class FoodMainVC: UIViewController, FoodViewModelOutput {
     let Numbermenu: DropDown = {
         let menu = DropDown()
         menu.dataSource = [
-            "5",
-            "2",
-            "3"
+            "1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20"
         ]
         return menu
     }()
@@ -61,7 +61,7 @@ class FoodMainVC: UIViewController, FoodViewModelOutput {
     func updateView(values: [FoodDetailModel]) {
         foods = values
         DispatchQueue.main.async {
-            self.collectionView.reloadData()
+            self.FoodsCV.reloadData()
             self.updateEmptyLabelVisibility()
             self.updateSearchLabelVisibility()
         }
@@ -69,7 +69,6 @@ class FoodMainVC: UIViewController, FoodViewModelOutput {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         setupTapGestureRecognizer()
         setupDropdownMenu()
         style()
@@ -77,7 +76,7 @@ class FoodMainVC: UIViewController, FoodViewModelOutput {
     }
     
     private func setupDropdownMenu() {
-        menu.anchorView = dropdownButton
+        menu.anchorView = maxFatButton
         menu.selectionAction = { [weak self] index, item in
             self?.maxFat = Int(item)!
         }
@@ -107,10 +106,12 @@ class FoodMainVC: UIViewController, FoodViewModelOutput {
     }
 
     @objc private func searchButtonPressed() {
-        viewModel.fetchFoods(query: searchController.searchBar.text, maxFat: maxFat/*, number: number*/)
+        if number == 0 {
+            viewModel.fetchFoods(query: searchController.searchBar.text, maxFat: maxFat, number: nil)
+        } else {
+            viewModel.fetchFoods(query: searchController.searchBar.text, maxFat: maxFat, number: number)
+        }
     }
-    
-    
     
     func style() {
         
@@ -120,29 +121,40 @@ class FoodMainVC: UIViewController, FoodViewModelOutput {
         self.navigationController?.navigationBar.prefersLargeTitles = true
         self.navigationItem.largeTitleDisplayMode = .always
         
-        self.searchController.obscuresBackgroundDuringPresentation = false
-        self.searchController.hidesNavigationBarDuringPresentation = false
-        self.searchController.searchBar.placeholder = "Search Character"
-        
         self.navigationItem.searchController = searchController
         self.definesPresentationContext = false
         self.navigationItem.hidesSearchBarWhenScrolling = false
         
+        self.searchController.obscuresBackgroundDuringPresentation = false
+        self.searchController.hidesNavigationBarDuringPresentation = false
+        self.searchController.searchBar.placeholder = "Search Character"
+        
         searchController.searchBar.showsBookmarkButton = true
         searchController.searchBar.setImage(UIImage(systemName: "line.horizontal.3.decrease"), for: .bookmark, state: .normal)
         
+        let layout = UICollectionViewFlowLayout()
+        ButtonCV = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        ButtonCV.translatesAutoresizingMaskIntoConstraints = false
+        ButtonCV.register(FoodsMainTVC.self, forCellWithReuseIdentifier: ButtonCVC.identifier)
+        ButtonCV.delegate = self
+        ButtonCV.dataSource = self
+        ButtonCV.backgroundColor = .systemBackground
+        
         ButtonStack.translatesAutoresizingMaskIntoConstraints = false
         ButtonStack.axis = .horizontal
-        ButtonStack.spacing = 3
-        ButtonStack.distribution = .fillEqually
+        ButtonStack.spacing = 10
         
-        dropdownButton.translatesAutoresizingMaskIntoConstraints = false
-        dropdownButton.setTitle("Max Fat", for: .normal)
-        dropdownButton.addTarget(self, action: #selector(showDropdownMenu), for: .touchUpInside)
-        dropdownButton.setTitleColor(.white, for: UIControl.State.normal)
-        dropdownButton.backgroundColor = .systemGreen
-        dropdownButton.layer.cornerRadius = 10
-        dropdownButton.contentEdgeInsets = UIEdgeInsets(top: 10.0, left: 10.0, bottom: 10.0, right: 10.0)
+        buttonScrollView.translatesAutoresizingMaskIntoConstraints = false
+        buttonScrollView.showsHorizontalScrollIndicator = false
+        buttonScrollView.contentSize = CGSize(width: (view.frame.width / 1.5 + 3 + 2) * 3, height: 50)
+        
+        maxFatButton.translatesAutoresizingMaskIntoConstraints = false
+        maxFatButton.setTitle("Max Fat", for: .normal)
+        maxFatButton.addTarget(self, action: #selector(showDropdownMenu), for: .touchUpInside)
+        maxFatButton.setTitleColor(.white, for: UIControl.State.normal)
+        maxFatButton.backgroundColor = .systemGreen
+        maxFatButton.layer.cornerRadius = 10
+        maxFatButton.contentEdgeInsets = UIEdgeInsets(top: 10.0, left: 10.0, bottom: 10.0, right: 10.0)
         
         numberButton.translatesAutoresizingMaskIntoConstraints = false
         numberButton.setTitle("Number", for: .normal)
@@ -160,14 +172,22 @@ class FoodMainVC: UIViewController, FoodViewModelOutput {
         searchButton.layer.cornerRadius = 10
         searchButton.contentEdgeInsets = UIEdgeInsets(top: 10.0, left: 10.0, bottom: 10.0, right: 10.0)
         
-        let layout = UICollectionViewFlowLayout()
-        collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.register(FoodsMainTVC.self, forCellWithReuseIdentifier: FoodsMainTVC.identifier)
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        collectionView.backgroundColor = .systemBackground
-    
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle("Button", for: .normal)
+        button.addTarget(self, action: #selector(searchButtonPressed), for: .touchUpInside)
+        button.setTitleColor(.white, for: UIControl.State.normal)
+        button.backgroundColor = .systemGreen
+        button.layer.cornerRadius = 10
+        button.contentEdgeInsets = UIEdgeInsets(top: 10.0, left: 10.0, bottom: 10.0, right: 10.0)
+        
+        let layout1 = UICollectionViewFlowLayout()
+        FoodsCV = UICollectionView(frame: .zero, collectionViewLayout: layout1)
+        FoodsCV.translatesAutoresizingMaskIntoConstraints = false
+        FoodsCV.register(FoodsMainTVC.self, forCellWithReuseIdentifier: FoodsMainTVC.identifier)
+        FoodsCV.delegate = self
+        FoodsCV.dataSource = self
+        FoodsCV.backgroundColor = .systemBackground
+        
         emptyLabel.translatesAutoresizingMaskIntoConstraints = false
         emptyLabel.text = "We can't find anything😞"
         emptyLabel.textColor = UIColor.systemGray
@@ -177,33 +197,56 @@ class FoodMainVC: UIViewController, FoodViewModelOutput {
         searchLabel.text = "Welcome! Start by searching foods😋"
         searchLabel.textColor = UIColor.systemGray
         searchLabel.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
-        
+    
     }
     
     func layout() {
         
-        view.addSubview(ButtonStack)
-        view.addSubview(collectionView)
+//        view.addSubview(ButtonStack)
+        view.addSubview(buttonScrollView)
+        view.addSubview(FoodsCV)
         view.addSubview(searchLabel)
         
-        ButtonStack.addArrangedSubview(dropdownButton)
+        buttonScrollView.addSubview(ButtonStack)
+        
+        ButtonStack.addArrangedSubview(maxFatButton)
         ButtonStack.addArrangedSubview(numberButton)
+        ButtonStack.addArrangedSubview(button)
         ButtonStack.addArrangedSubview(searchButton)
-
+        
         NSLayoutConstraint.activate([
+            
+            buttonScrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            buttonScrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            buttonScrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            buttonScrollView.heightAnchor.constraint(equalToConstant: 50),
 
-            ButtonStack.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            ButtonStack.leadingAnchor.constraint(equalToSystemSpacingAfter: view.leadingAnchor, multiplier: 2),
-            ButtonStack.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            
-            collectionView.topAnchor.constraint(equalToSystemSpacingBelow: ButtonStack.bottomAnchor, multiplier: 5),
-            collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            collectionView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
-            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
-            
+            maxFatButton.topAnchor.constraint(equalTo: buttonScrollView.topAnchor),
+            maxFatButton.leadingAnchor.constraint(equalTo: ButtonStack.leadingAnchor, constant: 10),
+            maxFatButton.widthAnchor.constraint(equalToConstant: view.frame.width / 2.5),
+            maxFatButton.heightAnchor.constraint(equalTo: buttonScrollView.heightAnchor),
+
+            numberButton.topAnchor.constraint(equalTo: buttonScrollView.topAnchor),
+            numberButton.widthAnchor.constraint(equalToConstant: view.frame.width / 2.5),
+            numberButton.heightAnchor.constraint(equalTo: buttonScrollView.heightAnchor),
+
+            searchButton.topAnchor.constraint(equalTo: buttonScrollView.topAnchor),
+            searchButton.widthAnchor.constraint(equalToConstant: view.frame.width / 2.5),
+            searchButton.heightAnchor.constraint(equalTo: buttonScrollView.heightAnchor),
+
+            button.topAnchor.constraint(equalTo: buttonScrollView.topAnchor),
+            button.widthAnchor.constraint(equalToConstant: view.frame.width / 2.5),
+            button.heightAnchor.constraint(equalTo: buttonScrollView.heightAnchor),
+
+            FoodsCV.topAnchor.constraint(equalToSystemSpacingBelow: buttonScrollView.bottomAnchor, multiplier: 5),
+            FoodsCV.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            FoodsCV.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            FoodsCV.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
+            FoodsCV.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
+
             searchLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             searchLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+            
         ])
     }
     
@@ -214,7 +257,6 @@ class FoodMainVC: UIViewController, FoodViewModelOutput {
             searchLabel.isHidden = true
         }
     }
-
     
     private func updateEmptyLabelVisibility() {
         if foods.isEmpty && emptyLabel.superview == nil {
@@ -250,6 +292,5 @@ extension FoodMainVC: UICollectionViewDelegate,UICollectionViewDataSource,UIColl
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: view.frame.width/2-20, height: 250)
     }
-    
 
 }
