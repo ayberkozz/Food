@@ -292,5 +292,12 @@ extension FoodMainVC: UICollectionViewDelegate,UICollectionViewDataSource,UIColl
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: view.frame.width/2-20, height: 250)
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let viewModel = RecipeViewModel(foodService: FoodService())
+        let recipeVC = RecipeVC(viewModel: viewModel)
+        recipeVC.foodId = foods[indexPath.row].id
+        navigationController?.pushViewController(recipeVC, animated: true)
+    }
 
 }

@@ -31,7 +31,6 @@ class FoodsByIngredientsViewModel {
             switch result {
             case .success(let foodByIngredients):
                 self.AllFoodsByIngredients = foodByIngredients
-                print(self.AllFoodsByIngredients)
             case .failure(let error):
                 print("Failed to fetch foods: \(error.localizedDescription)")
             }

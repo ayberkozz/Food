@@ -7,7 +7,7 @@
 
 import Foundation
 
-// MARK: - DisneyMElement
+// MARK: - FoodsByIngredientsModel
 struct FoodsByIngredientsModel: Codable {
     let id: Int
     let image: String

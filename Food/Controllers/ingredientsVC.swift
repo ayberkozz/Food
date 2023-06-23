@@ -10,7 +10,7 @@ import UIKit
 class ingredientsVC: UIViewController {
     
     private var tv = UITableView()
-    private var button = UIButton()
+    private var searchButtonIng = UIButton()
     
     private let items = ["Apples", "Flour", "Sugar"]
     private var selectedItems: [String] = []
@@ -18,16 +18,16 @@ class ingredientsVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
         style()
         layout()
+        
     }
     
     func getSelectedItems() -> [String] {
         return selectedItems
     }
     
-    @objc private func button1() {
+    @objc private func searchButtonIngre() {
         let viewModel = FoodsByIngredientsViewModel(foodService: FoodService())
         let nextViewController = FoodsByIngredientsVC(viewModel: viewModel)
         nextViewController.ingredients = selectedItems
@@ -48,19 +48,19 @@ class ingredientsVC: UIViewController {
         tv.dataSource = self
         tv.allowsMultipleSelection = true
         
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("Search🥄", for: .normal)
-        button.addTarget(self, action: #selector(button1), for: .touchUpInside)
-        button.setTitleColor(.white, for: UIControl.State.normal)
-        button.backgroundColor = .systemGreen
-        button.layer.cornerRadius = 10
-        button.contentEdgeInsets = UIEdgeInsets(top: 10.0, left: 10.0, bottom: 10.0, right: 10.0)
+        searchButtonIng.translatesAutoresizingMaskIntoConstraints = false
+        searchButtonIng.setTitle("Search🥄", for: .normal)
+        searchButtonIng.addTarget(self, action: #selector(searchButtonIngre), for: .touchUpInside)
+        searchButtonIng.setTitleColor(.white, for: UIControl.State.normal)
+        searchButtonIng.backgroundColor = .systemGreen
+        searchButtonIng.layer.cornerRadius = 10
+        searchButtonIng.contentEdgeInsets = UIEdgeInsets(top: 10.0, left: 10.0, bottom: 10.0, right: 10.0)
     }
     
     func layout() {
         
         view.addSubview(tv)
-        view.addSubview(button)
+        view.addSubview(searchButtonIng)
         
         NSLayoutConstraint.activate([
             
@@ -68,9 +68,9 @@ class ingredientsVC: UIViewController {
             tv.widthAnchor.constraint(equalToConstant: view.frame.width),
             tv.heightAnchor.constraint(equalToConstant: view.frame.height / 2),
             
-            button.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            button.widthAnchor.constraint(equalToConstant: view.frame.width / 1.1),
-            button.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20)
+            searchButtonIng.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            searchButtonIng.widthAnchor.constraint(equalToConstant: view.frame.width / 1.1),
+            searchButtonIng.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20)
         ])
 
     }
