@@ -8,7 +8,7 @@
 import UIKit
 import SDWebImage
 
-class FoodsMainTVC: UICollectionViewCell {
+class FoodsMainCVC: UICollectionViewCell {
     
     static let identifier = "CustomCollectionViewCell"
     private(set) var food: FoodDetailModel!
@@ -40,12 +40,13 @@ class FoodsMainTVC: UICollectionViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         contentView.layer.cornerRadius = 20
+        foodImage.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
         foodImage.layer.cornerRadius = 20
     }
     
     func layout() {
         
-        contentView.backgroundColor = .systemGreen
+        contentView.backgroundColor = UIColor(red: 0.23, green: 0.37, blue: 0.04, alpha: 1.00)
         self.foodImage.tintColor = UIColor.black
 
         contentView.addSubview(Vstack)
@@ -64,8 +65,11 @@ class FoodsMainTVC: UICollectionViewCell {
             Vstack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -2),
             Vstack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -2),
 
-            foodImage.heightAnchor.constraint(equalToConstant: contentView.frame.size.height / 1.5),
-            foodImage.widthAnchor.constraint(equalToConstant: contentView.frame.size.width / 1.2),
+//            foodImage.heightAnchor.constraint(equalToConstant: contentView.frame.size.height / 1.5),
+//            foodImage.widthAnchor.constraint(equalToConstant: contentView.frame.size.width / 1.2),
+            
+            foodImage.widthAnchor.constraint(equalToConstant: contentView.frame.width),
+            foodImage.heightAnchor.constraint(equalToConstant: contentView.frame.height / 2),
 
         ])
         

@@ -52,7 +52,7 @@ class ingredientsVC: UIViewController {
         searchButtonIng.setTitle("Search🥄", for: .normal)
         searchButtonIng.addTarget(self, action: #selector(searchButtonIngre), for: .touchUpInside)
         searchButtonIng.setTitleColor(.white, for: UIControl.State.normal)
-        searchButtonIng.backgroundColor = .systemGreen
+        searchButtonIng.backgroundColor = UIColor(red: 0.23, green: 0.37, blue: 0.04, alpha: 1.00)
         searchButtonIng.layer.cornerRadius = 10
         searchButtonIng.contentEdgeInsets = UIEdgeInsets(top: 10.0, left: 10.0, bottom: 10.0, right: 10.0)
     }

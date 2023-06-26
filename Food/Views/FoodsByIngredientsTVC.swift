@@ -80,7 +80,7 @@ class FoodsByIngredientsTVC: UICollectionViewCell {
     
     func layout() {
         
-        contentView.backgroundColor = UIColor.systemGreen
+        contentView.backgroundColor = UIColor(red: 0.23, green: 0.37, blue: 0.04, alpha: 1.00)
         self.foodImage.tintColor = UIColor.black
 
         contentView.addSubview(Hstack)

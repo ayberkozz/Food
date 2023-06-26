@@ -135,7 +135,7 @@ class FoodMainVC: UIViewController, FoodViewModelOutput {
         let layout = UICollectionViewFlowLayout()
         ButtonCV = UICollectionView(frame: .zero, collectionViewLayout: layout)
         ButtonCV.translatesAutoresizingMaskIntoConstraints = false
-        ButtonCV.register(FoodsMainTVC.self, forCellWithReuseIdentifier: ButtonCVC.identifier)
+        ButtonCV.register(FoodsMainCVC.self, forCellWithReuseIdentifier: ButtonCVC.identifier)
         ButtonCV.delegate = self
         ButtonCV.dataSource = self
         ButtonCV.backgroundColor = .systemBackground
@@ -152,7 +152,7 @@ class FoodMainVC: UIViewController, FoodViewModelOutput {
         maxFatButton.setTitle("Max Fat", for: .normal)
         maxFatButton.addTarget(self, action: #selector(showDropdownMenu), for: .touchUpInside)
         maxFatButton.setTitleColor(.white, for: UIControl.State.normal)
-        maxFatButton.backgroundColor = .systemGreen
+        maxFatButton.backgroundColor = UIColor(red: 0.23, green: 0.37, blue: 0.04, alpha: 1.00)
         maxFatButton.layer.cornerRadius = 10
         maxFatButton.contentEdgeInsets = UIEdgeInsets(top: 10.0, left: 10.0, bottom: 10.0, right: 10.0)
         
@@ -160,7 +160,7 @@ class FoodMainVC: UIViewController, FoodViewModelOutput {
         numberButton.setTitle("Number", for: .normal)
         numberButton.addTarget(self, action: #selector(showNumberdownMenu), for: .touchUpInside)
         numberButton.setTitleColor(.white, for: UIControl.State.normal)
-        numberButton.backgroundColor = .systemGreen
+        numberButton.backgroundColor = UIColor(red: 0.23, green: 0.37, blue: 0.04, alpha: 1.00)
         numberButton.layer.cornerRadius = 10
         numberButton.contentEdgeInsets = UIEdgeInsets(top: 10.0, left: 10.0, bottom: 10.0, right: 10.0)
 
@@ -168,7 +168,7 @@ class FoodMainVC: UIViewController, FoodViewModelOutput {
         searchButton.setTitle("Search", for: .normal)
         searchButton.addTarget(self, action: #selector(searchButtonPressed), for: .touchUpInside)
         searchButton.setTitleColor(.white, for: UIControl.State.normal)
-        searchButton.backgroundColor = .systemGreen
+        searchButton.backgroundColor = UIColor(red: 0.23, green: 0.37, blue: 0.04, alpha: 1.00)
         searchButton.layer.cornerRadius = 10
         searchButton.contentEdgeInsets = UIEdgeInsets(top: 10.0, left: 10.0, bottom: 10.0, right: 10.0)
         
@@ -176,14 +176,14 @@ class FoodMainVC: UIViewController, FoodViewModelOutput {
         button.setTitle("Button", for: .normal)
         button.addTarget(self, action: #selector(searchButtonPressed), for: .touchUpInside)
         button.setTitleColor(.white, for: UIControl.State.normal)
-        button.backgroundColor = .systemGreen
+        button.backgroundColor = UIColor(red: 0.23, green: 0.37, blue: 0.04, alpha: 1.00)
         button.layer.cornerRadius = 10
         button.contentEdgeInsets = UIEdgeInsets(top: 10.0, left: 10.0, bottom: 10.0, right: 10.0)
         
         let layout1 = UICollectionViewFlowLayout()
         FoodsCV = UICollectionView(frame: .zero, collectionViewLayout: layout1)
         FoodsCV.translatesAutoresizingMaskIntoConstraints = false
-        FoodsCV.register(FoodsMainTVC.self, forCellWithReuseIdentifier: FoodsMainTVC.identifier)
+        FoodsCV.register(FoodsMainCVC.self, forCellWithReuseIdentifier: FoodsMainCVC.identifier)
         FoodsCV.delegate = self
         FoodsCV.dataSource = self
         FoodsCV.backgroundColor = .systemBackground
@@ -284,7 +284,7 @@ extension FoodMainVC: UICollectionViewDelegate,UICollectionViewDataSource,UIColl
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CustomCollectionViewCell", for: indexPath) as! FoodsMainTVC
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CustomCollectionViewCell", for: indexPath) as! FoodsMainCVC
         cell.configure(with: foods[indexPath.row])
         return cell
     }

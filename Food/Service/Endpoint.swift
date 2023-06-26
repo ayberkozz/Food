@@ -11,7 +11,7 @@ enum Endpoint {
 
     case complexSearch(query: String?, maxFat: Int?, number: Int?)
     case findByIngredients(ingredients: [String]/*, number: Int?*/)
-    case recipe(id: Int)
+    case recipe(id:Int)
     
     var request: URLRequest? {
         guard let url = self.url else { return nil }
@@ -48,8 +48,9 @@ enum Endpoint {
 //            }
             
         case .recipe(let id):
-            components = URLComponents(string: Constants.baseURL + "/recipes/\(id)/summary")
+            components = URLComponents(string: Constants.baseURL + "/recipes/\(id)/information")
         }
+    
         
         queryItems.append(URLQueryItem(name: "apiKey", value: Constants.API_KEY))
         components?.queryItems = queryItems
@@ -74,6 +75,9 @@ extension URLRequest {
         }
     }
 }
+
+
+
 
 
 

@@ -22,7 +22,7 @@ class RecipeViewModel {
         self.foodService = foodService
     }
     
-    func fetchRecipe(id: Int?) {
+    func fetchRecipe(id: Int!) {
         
         guard let id = id else {
             return
