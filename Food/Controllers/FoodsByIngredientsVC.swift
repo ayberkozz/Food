@@ -93,6 +93,14 @@ extension FoodsByIngredientsVC: UICollectionViewDelegate,UICollectionViewDataSou
         return CGSize(width: view.frame.width - 20, height: 150)
     }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let viewModel = RecipeViewModel(foodService: FoodService())
+        let recipeVC = RecipeVC(viewModel: viewModel)
+        recipeVC.foodId = foodsByIngredients[indexPath.row].id
+//        print("\(foodsByIngredients[indexPath.row].id)😝😝😝😝😝😝😝😝😝😝😝😝😝😝😝😝😝😝😝😝😝😝😝😝😝😝😝😝😝😝😝😝😝😝😝😝😝😝")
+        navigationController?.pushViewController(recipeVC, animated: true)
+    }
+    
 }
 
 

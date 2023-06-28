@@ -12,7 +12,7 @@ class ingredientsVC: UIViewController {
     private var tv = UITableView()
     private var searchButtonIng = UIButton()
     
-    private let items = ["Apples", "Flour", "Sugar"]
+    private let items = ["Apples", "Flour", "Sugar", "Cucumber", "Tomato", "Pepper", "Olive", "Olive Oil"]
     private var selectedItems: [String] = []
     
     override func viewDidLoad() {
