@@ -24,7 +24,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         navigationController.tabBarItem = UITabBarItem(title: "Food", image: UIImage(systemName: "fork.knife"), tag: 0)
         
         
-        let navigationController1 = UINavigationController(rootViewController: ingredientsVC())
+        let navigationController1 = UINavigationController(rootViewController: IngredientsVC())
         navigationController1.tabBarItem = UITabBarItem(title: "Ingredients ", image: UIImage(systemName: "carrot"), tag: 0)
         
         let tabBarController = UITabBarController()

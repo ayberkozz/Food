@@ -14,7 +14,7 @@ class RecipeVC: UIViewController, RecipeViewModelOutput {
     
     private let viewModel: RecipeViewModel
     private var recipe: RecipeModel!
-    
+        
     private let scrollView = UIScrollView()
     
     private let contentView = UIView()
@@ -26,7 +26,6 @@ class RecipeVC: UIViewController, RecipeViewModelOutput {
 
     private let titleView = UIView()
     private let view1 = UIView()
-    private let view2 = UIView()
 
     private let ingredientsButton = UIButton()
     
@@ -97,6 +96,7 @@ class RecipeVC: UIViewController, RecipeViewModelOutput {
         label.text = labelValue
     }
     
+    
     private func style() {
         
         navigationItem.title = "Recipe Detail"
@@ -123,6 +123,7 @@ class RecipeVC: UIViewController, RecipeViewModelOutput {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
         titleLabel.numberOfLines = 0
+        titleLabel.lineBreakMode = .byTruncatingTail
         
         HStack.translatesAutoresizingMaskIntoConstraints = false
         HStack.axis = .horizontal
@@ -148,18 +149,18 @@ class RecipeVC: UIViewController, RecipeViewModelOutput {
         ingTableView.delegate = self
         ingTableView.dataSource = self
         ingTableView.register(UITableViewCell.self, forCellReuseIdentifier: "cellIdentifier")
-        
-        view2.translatesAutoresizingMaskIntoConstraints = false
-        view2.tintColor = .gray
-        view2.layer.cornerRadius = 15
-        view2.backgroundColor = .white
-        view2.layer.borderColor = UIColor.gray.cgColor
-        view2.layer.borderWidth = 1.0
 
         Features.translatesAutoresizingMaskIntoConstraints = false
         Features.axis = .vertical
         Features.alignment = .leading
         Features.spacing = 2
+        Features.tintColor = .gray
+        Features.layer.cornerRadius = 15
+        Features.backgroundColor = .white
+        Features.layer.borderColor = UIColor.gray.cgColor
+        Features.layer.borderWidth = 1.0
+        Features.isLayoutMarginsRelativeArrangement = true
+        Features.layoutMargins = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
         
         healtScoreLabel.translatesAutoresizingMaskIntoConstraints = false
         healtScoreLabel.font.withSize(25)
@@ -215,15 +216,13 @@ class RecipeVC: UIViewController, RecipeViewModelOutput {
         titleView.addSubview(titleLabel)
         
         VStack.addArrangedSubview(view1)
-        VStack.addArrangedSubview(view2)
+        VStack.addArrangedSubview(Features)
         
         view1.addSubview(HStack)
         view1.addSubview(ingTableView)
         
         HStack.addArrangedSubview(ingredientsButton)
-        
-        view2.addSubview(Features)
-        
+                
         Features.addArrangedSubview(healtScoreLabel)
         Features.addArrangedSubview(ServingLabel)
         Features.addArrangedSubview(priceLabel)
@@ -250,8 +249,10 @@ class RecipeVC: UIViewController, RecipeViewModelOutput {
             titleView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.75),
             titleView.heightAnchor.constraint(equalToConstant: view.frame.height/15),
 
-            titleLabel.centerXAnchor.constraint(equalTo: titleView.centerXAnchor),
-            titleLabel.centerYAnchor.constraint(equalTo: titleView.centerYAnchor),
+            titleLabel.leadingAnchor.constraint(equalTo: titleView.leadingAnchor, constant: 8),
+            titleLabel.trailingAnchor.constraint(equalTo: titleView.trailingAnchor, constant: -8),
+            titleLabel.topAnchor.constraint(equalTo: titleView.topAnchor, constant: 8),
+            titleLabel.bottomAnchor.constraint(equalTo: titleView.bottomAnchor, constant: -8),
             
             scrollView.topAnchor.constraint(equalToSystemSpacingBelow: titleView.bottomAnchor, multiplier: 1),
             scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
@@ -278,14 +279,8 @@ class RecipeVC: UIViewController, RecipeViewModelOutput {
             ingTableView.trailingAnchor.constraint(equalTo: view1.trailingAnchor),
             ingTableView.bottomAnchor.constraint(equalTo: view1.bottomAnchor),
             
-            view2.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.9),
-            view2.heightAnchor.constraint(equalToConstant: view.frame.height/4.5),
+            Features.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.9),
             
-            Features.centerYAnchor.constraint(equalTo: view2.centerYAnchor),
-            Features.leadingAnchor.constraint(equalToSystemSpacingAfter: view2.leadingAnchor, multiplier: 2),
-            Features.topAnchor.constraint(equalToSystemSpacingBelow: view2.topAnchor, multiplier: 2),
-            
-
         ])
     }
 

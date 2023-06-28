@@ -7,50 +7,45 @@
 
 import Foundation
 
-// MARK: - Welcome
-struct Welcome: Codable {
-    let id: Int
-    let original, originalName, name: String
-    let amount: Int
-    let unit, unitShort, unitLong: String
-    let possibleUnits: [String]
-    let estimatedCost: EstimatedCost
-    let consistency: String
-    let shoppingListUnits: [String]
-    let aisle, image: String
-    let nutrition: Nutrition
-    let categoryPath: [String]
+struct Ingredients {
+    let IngredientName : String
+//    let id : Int
+    
+    init(raw: [String]) {
+        IngredientName = raw[0]
+//        id = raw[1]
+    }
+
 }
 
-// MARK: - EstimatedCost
-struct EstimatedCost: Codable {
-    let value: Int
-    let unit: String
+func loadCSV(from csvName: String) -> [Ingredients] {
+    
+    var csvToStruct = [Ingredients]()
+    
+    guard let filePath = Bundle.main.path(forResource: csvName, ofType: "csv") else {
+        return []
+    }
+    
+    var data = ""
+    do {
+        data = try String(contentsOfFile: filePath)
+    } catch {
+        print(error)
+        return []
+    }
+    
+    var rows = data.components(separatedBy: "\n")
+    
+    let columnCount = rows.first?.components(separatedBy: ",").count
+    rows.removeFirst()
+    
+    for row in rows {
+        let csvColumns = row.components(separatedBy: ",")
+        if csvColumns.count == columnCount {
+            let ingredientsStruct = Ingredients.init(raw: csvColumns)
+            csvToStruct.append(ingredientsStruct)
+        }
+    }
+    
+    return csvToStruct
 }
-
-// MARK: - Nutrition
-struct Nutrition: Codable {
-    let nutrients, properties, flavonoids: [Flavonoid]
-    let caloricBreakdown: CaloricBreakdown
-    let weightPerServing: WeightPerServing
-}
-
-// MARK: - CaloricBreakdown
-struct CaloricBreakdown: Codable {
-    let percentProtein, percentFat, percentCarbs: Double
-}
-
-// MARK: - Flavonoid
-struct Flavonoid: Codable {
-    let name: String
-    let amount: Double
-    let unit: String
-    let percentOfDailyNeeds: Double?
-}
-
-// MARK: - WeightPerServing
-struct WeightPerServing: Codable {
-    let amount: Int
-    let unit: String
-}
-

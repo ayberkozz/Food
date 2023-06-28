@@ -18,8 +18,8 @@ class FoodMainVC: UIViewController, FoodViewModelOutput {
     private var ButtonStack = UIStackView()
     private var maxFatButton = UIButton()
     private var numberButton = UIButton()
+    private var dietButton = UIButton()
     private var searchButton = UIButton()
-    private var button = UIButton()
 
     private var searchLabel = UILabel()
     private var emptyLabel = UILabel()
@@ -31,8 +31,9 @@ class FoodMainVC: UIViewController, FoodViewModelOutput {
     
     var maxFat = Int()
     var number = Int()
+    var Diet = String()
     
-    let menu: DropDown = {
+    let maxFatMenu: DropDown = {
         let menu = DropDown()
         menu.dataSource = [
             "0","10","15","20","25","30","35","40","45","50","60","70","80","90","100","200"
@@ -44,6 +45,14 @@ class FoodMainVC: UIViewController, FoodViewModelOutput {
         let menu = DropDown()
         menu.dataSource = [
             "1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20"
+        ]
+        return menu
+    }()
+    
+    let DietMenu: DropDown = {
+        let menu = DropDown()
+        menu.dataSource = [
+            "Gluten Free","Vegetarian","Lacto-Vegetarian","Ovo-Vegetarian","Vegan","Pescetarian","Paleo","Primal","Low FODMAP","Whole30","Ketogenic"
         ]
         return menu
     }()
@@ -76,14 +85,19 @@ class FoodMainVC: UIViewController, FoodViewModelOutput {
     }
     
     private func setupDropdownMenu() {
-        menu.anchorView = maxFatButton
-        menu.selectionAction = { [weak self] index, item in
+        maxFatMenu.anchorView = maxFatButton
+        maxFatMenu.selectionAction = { [weak self] index, item in
             self?.maxFat = Int(item)!
         }
         
         Numbermenu.anchorView = numberButton
         Numbermenu.selectionAction = { [weak self] index, item1 in
             self?.number = Int(item1)!
+        }
+        
+        DietMenu.anchorView = dietButton
+        DietMenu.selectionAction = { [weak self] index, item1 in
+            self?.Diet = item1
         }
     }
     
@@ -98,18 +112,22 @@ class FoodMainVC: UIViewController, FoodViewModelOutput {
     }
 
     @objc private func showDropdownMenu() {
-        menu.show()
+        maxFatMenu.show()
     }
     
     @objc private func showNumberdownMenu() {
         Numbermenu.show()
     }
+    
+    @objc private func showDietdownMenu() {
+        DietMenu.show()
+    }
 
     @objc private func searchButtonPressed() {
         if number == 0 {
-            viewModel.fetchFoods(query: searchController.searchBar.text, maxFat: maxFat, number: nil)
+            viewModel.fetchFoods(query: searchController.searchBar.text, maxFat: maxFat, number: nil, diet: Diet)
         } else {
-            viewModel.fetchFoods(query: searchController.searchBar.text, maxFat: maxFat, number: number)
+            viewModel.fetchFoods(query: searchController.searchBar.text, maxFat: maxFat, number: number, diet: Diet)
         }
     }
     
@@ -164,6 +182,14 @@ class FoodMainVC: UIViewController, FoodViewModelOutput {
         numberButton.layer.cornerRadius = 10
         numberButton.contentEdgeInsets = UIEdgeInsets(top: 10.0, left: 10.0, bottom: 10.0, right: 10.0)
 
+        dietButton.translatesAutoresizingMaskIntoConstraints = false
+        dietButton.setTitle("Diet", for: .normal)
+        dietButton.addTarget(self, action: #selector(showDietdownMenu), for: .touchUpInside)
+        dietButton.setTitleColor(.white, for: UIControl.State.normal)
+        dietButton.backgroundColor = UIColor(red: 0.23, green: 0.37, blue: 0.04, alpha: 1.00)
+        dietButton.layer.cornerRadius = 10
+        dietButton.contentEdgeInsets = UIEdgeInsets(top: 10.0, left: 10.0, bottom: 10.0, right: 10.0)
+        
         searchButton.translatesAutoresizingMaskIntoConstraints = false
         searchButton.setTitle("Search", for: .normal)
         searchButton.addTarget(self, action: #selector(searchButtonPressed), for: .touchUpInside)
@@ -171,14 +197,6 @@ class FoodMainVC: UIViewController, FoodViewModelOutput {
         searchButton.backgroundColor = UIColor(red: 0.23, green: 0.37, blue: 0.04, alpha: 1.00)
         searchButton.layer.cornerRadius = 10
         searchButton.contentEdgeInsets = UIEdgeInsets(top: 10.0, left: 10.0, bottom: 10.0, right: 10.0)
-        
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("Button", for: .normal)
-        button.addTarget(self, action: #selector(searchButtonPressed), for: .touchUpInside)
-        button.setTitleColor(.white, for: UIControl.State.normal)
-        button.backgroundColor = UIColor(red: 0.23, green: 0.37, blue: 0.04, alpha: 1.00)
-        button.layer.cornerRadius = 10
-        button.contentEdgeInsets = UIEdgeInsets(top: 10.0, left: 10.0, bottom: 10.0, right: 10.0)
         
         let layout1 = UICollectionViewFlowLayout()
         FoodsCV = UICollectionView(frame: .zero, collectionViewLayout: layout1)
@@ -211,7 +229,7 @@ class FoodMainVC: UIViewController, FoodViewModelOutput {
         
         ButtonStack.addArrangedSubview(maxFatButton)
         ButtonStack.addArrangedSubview(numberButton)
-        ButtonStack.addArrangedSubview(button)
+        ButtonStack.addArrangedSubview(dietButton)
         ButtonStack.addArrangedSubview(searchButton)
         
         NSLayoutConstraint.activate([
@@ -234,9 +252,9 @@ class FoodMainVC: UIViewController, FoodViewModelOutput {
             searchButton.widthAnchor.constraint(equalToConstant: view.frame.width / 2.5),
             searchButton.heightAnchor.constraint(equalTo: buttonScrollView.heightAnchor),
 
-            button.topAnchor.constraint(equalTo: buttonScrollView.topAnchor),
-            button.widthAnchor.constraint(equalToConstant: view.frame.width / 2.5),
-            button.heightAnchor.constraint(equalTo: buttonScrollView.heightAnchor),
+            dietButton.topAnchor.constraint(equalTo: buttonScrollView.topAnchor),
+            dietButton.widthAnchor.constraint(equalToConstant: view.frame.width / 2.5),
+            dietButton.heightAnchor.constraint(equalTo: buttonScrollView.heightAnchor),
 
             FoodsCV.topAnchor.constraint(equalToSystemSpacingBelow: buttonScrollView.bottomAnchor, multiplier: 5),
             FoodsCV.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),

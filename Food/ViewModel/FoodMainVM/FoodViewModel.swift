@@ -23,14 +23,14 @@ class FoodViewModel {
         self.foodService = foodService
     }
     
-    func fetchFoods(query: String?, maxFat: Int?, number: Int?) {
+    func fetchFoods(query: String?, maxFat: Int?, number: Int?, diet : String?) {
         
         let endpoint: Endpoint
         
         if let number = number {
-            endpoint = Endpoint.complexSearch(query: query, maxFat: maxFat, number: number)
+            endpoint = Endpoint.complexSearch(query: query, maxFat: maxFat, number: number, diet: diet)
         } else {
-            endpoint = Endpoint.complexSearch(query: query, maxFat: maxFat, number: nil)
+            endpoint = Endpoint.complexSearch(query: query, maxFat: maxFat, number: nil, diet: diet)
         }
         
         foodService.fetchFoods(with: endpoint) { (result: Result<FoodModel, FoodServiceError>) in

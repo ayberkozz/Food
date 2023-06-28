@@ -10,7 +10,7 @@ import UIKit
 class FoodsByIngredientsVC: UIViewController, FoodsByIngredientsViewModelOutput {
     
     private var foodCV : UICollectionView!
-    
+        
     private let viewModel : FoodsByIngredientsViewModel
     private lazy var foodsByIngredients : [FoodsByIngredientsModel] = []
     var ingredients : [String] = []
@@ -97,7 +97,6 @@ extension FoodsByIngredientsVC: UICollectionViewDelegate,UICollectionViewDataSou
         let viewModel = RecipeViewModel(foodService: FoodService())
         let recipeVC = RecipeVC(viewModel: viewModel)
         recipeVC.foodId = foodsByIngredients[indexPath.row].id
-//        print("\(foodsByIngredients[indexPath.row].id)😝😝😝😝😝😝😝😝😝😝😝😝😝😝😝😝😝😝😝😝😝😝😝😝😝😝😝😝😝😝😝😝😝😝😝😝😝😝")
         navigationController?.pushViewController(recipeVC, animated: true)
     }
     

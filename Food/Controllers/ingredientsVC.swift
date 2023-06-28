@@ -7,24 +7,26 @@
 
 import UIKit
 
-class ingredientsVC: UIViewController {
+class IngredientsVC: UIViewController {
     
     private var tv = UITableView()
     private var searchButtonIng = UIButton()
-    
-    private let items = ["Apples", "Flour", "Sugar", "Cucumber", "Tomato", "Pepper", "Olive", "Olive Oil"]
+    private let searchController = UISearchController(searchResultsController: nil)
+    private var items: [Ingredients] = []
     private var selectedItems: [String] = []
+    private var filteredItems: [Ingredients] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        loadIngredients()
         style()
         layout()
-        
+        setupSearchController()
     }
     
-    func getSelectedItems() -> [String] {
-        return selectedItems
+    func loadIngredients() {
+        items = loadCSV(from: "top-1k-ingredients")
     }
     
     @objc private func searchButtonIngre() {
@@ -35,9 +37,7 @@ class ingredientsVC: UIViewController {
     }
     
     func style() {
-        
         view.backgroundColor = .white
-        
         self.navigationItem.title = "Ingredients🌽"
         self.navigationController?.navigationBar.prefersLargeTitles = true
         self.navigationItem.largeTitleDisplayMode = .always
@@ -51,60 +51,119 @@ class ingredientsVC: UIViewController {
         searchButtonIng.translatesAutoresizingMaskIntoConstraints = false
         searchButtonIng.setTitle("Search🥄", for: .normal)
         searchButtonIng.addTarget(self, action: #selector(searchButtonIngre), for: .touchUpInside)
-        searchButtonIng.setTitleColor(.white, for: UIControl.State.normal)
+        searchButtonIng.setTitleColor(.white, for: .normal)
         searchButtonIng.backgroundColor = UIColor(red: 0.23, green: 0.37, blue: 0.04, alpha: 1.00)
         searchButtonIng.layer.cornerRadius = 10
         searchButtonIng.contentEdgeInsets = UIEdgeInsets(top: 10.0, left: 10.0, bottom: 10.0, right: 10.0)
     }
     
     func layout() {
-        
         view.addSubview(tv)
         view.addSubview(searchButtonIng)
         
         NSLayoutConstraint.activate([
-            
             tv.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            tv.widthAnchor.constraint(equalToConstant: view.frame.width),
-            tv.heightAnchor.constraint(equalToConstant: view.frame.height / 2),
+            tv.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tv.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            tv.bottomAnchor.constraint(equalTo: searchButtonIng.topAnchor, constant: -10),
             
             searchButtonIng.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             searchButtonIng.widthAnchor.constraint(equalToConstant: view.frame.width / 1.1),
             searchButtonIng.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20)
         ])
-
     }
-
+    
+    func setupSearchController() {
+        self.searchController.searchResultsUpdater = self
+        self.searchController.obscuresBackgroundDuringPresentation = false
+        self.searchController.hidesNavigationBarDuringPresentation = false
+        self.searchController.searchBar.placeholder = "Search Ingredients"
+        
+        self.navigationItem.searchController = searchController
+        self.definesPresentationContext = false
+        self.navigationItem.hidesSearchBarWhenScrolling = false
+        
+        searchController.delegate = self
+        searchController.searchBar.delegate = self
+        searchController.searchBar.showsBookmarkButton = true
+        searchController.searchBar.setImage(UIImage(systemName: "line.horizontal.3.decrease"), for: .bookmark, state: .normal)
+    }
 }
 
 // MARK: - UITableViewDataSource
 
-extension ingredientsVC: UITableViewDataSource {
+extension IngredientsVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return items.count
+        if isFiltering() {
+            return filteredItems.count
+        } else {
+            return items.count
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ingredientsTVC.reuseIdentifier, for: indexPath) as! ingredientsTVC
-        let item = items[indexPath.row]
-        cell.textLabel?.text = item
-        cell.isSelectedItem = selectedItems.contains(item)
+        let item: Ingredients
+        if isFiltering() {
+            item = filteredItems[indexPath.row]
+        } else {
+            item = items[indexPath.row]
+        }
+        cell.textLabel?.text = item.IngredientName
+        cell.isSelectedItem = selectedItems.contains(item.IngredientName)
         return cell
     }
 }
 
 // MARK: - UITableViewDelegate
 
-extension ingredientsVC: UITableViewDelegate {
+extension IngredientsVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let selectedItem = items[indexPath.row]
+        let selectedItem: String
+        if isFiltering() {
+            selectedItem = filteredItems[indexPath.row].IngredientName
+        } else {
+            selectedItem = items[indexPath.row].IngredientName
+        }
         selectedItems.append(selectedItem)
     }
     
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        let deselectedItem = items[indexPath.row]
+        let deselectedItem: String
+        if isFiltering() {
+            deselectedItem = filteredItems[indexPath.row].IngredientName
+        } else {
+            deselectedItem = items[indexPath.row].IngredientName
+        }
         if let index = selectedItems.firstIndex(of: deselectedItem) {
             selectedItems.remove(at: index)
         }
     }
 }
+
+// MARK: - UISearchResultsUpdating
+
+extension IngredientsVC: UISearchResultsUpdating,UISearchControllerDelegate, UISearchBarDelegate {
+    func updateSearchResults(for searchController: UISearchController) {
+        let searchBar = searchController.searchBar
+        filterContentForSearchText(searchBar.text)
+    }
+    
+    func filterContentForSearchText(_ searchText: String?) {
+        if let searchText = searchText, !searchText.isEmpty {
+            filteredItems = items.filter { $0.IngredientName.lowercased().contains(searchText.lowercased()) }
+        } else {
+            filteredItems = items
+        }
+        tv.reloadData()
+    }
+    
+    func isFiltering() -> Bool {
+        return searchController.isActive && !isSearchBarEmpty()
+    }
+    
+    func isSearchBarEmpty() -> Bool {
+        return searchController.searchBar.text?.isEmpty ?? true
+    }
+}
+
