@@ -14,6 +14,7 @@ class IngredientsVC: UIViewController {
     private let searchController = UISearchController(searchResultsController: nil)
     private var items: [Ingredients] = []
     private var selectedItems: [String] = []
+    private var DeSelectedItems: [String] = []
     private var filteredItems: [Ingredients] = []
     
     override func viewDidLoad() {
@@ -90,9 +91,9 @@ class IngredientsVC: UIViewController {
     }
 }
 
-// MARK: - UITableViewDataSource
+// MARK: - UITableView
 
-extension IngredientsVC: UITableViewDataSource {
+extension IngredientsVC: UITableViewDataSource,UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if isFiltering() {
             return filteredItems.count
@@ -104,20 +105,19 @@ extension IngredientsVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ingredientsTVC.reuseIdentifier, for: indexPath) as! ingredientsTVC
         let item: Ingredients
+        
         if isFiltering() {
             item = filteredItems[indexPath.row]
         } else {
             item = items[indexPath.row]
         }
+        
         cell.textLabel?.text = item.IngredientName
         cell.isSelectedItem = selectedItems.contains(item.IngredientName)
+        cell.selectionStyle = .none
         return cell
     }
-}
-
-// MARK: - UITableViewDelegate
-
-extension IngredientsVC: UITableViewDelegate {
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedItem: String
         if isFiltering() {
@@ -125,7 +125,18 @@ extension IngredientsVC: UITableViewDelegate {
         } else {
             selectedItem = items[indexPath.row].IngredientName
         }
-        selectedItems.append(selectedItem)
+        
+        if let cell = tableView.cellForRow(at: indexPath) as? ingredientsTVC {
+            if selectedItems.contains(selectedItem) {
+                if let index = selectedItems.firstIndex(of: selectedItem) {
+                    selectedItems.remove(at: index)
+                }
+                cell.isSelectedItem = false
+            } else {
+                selectedItems.append(selectedItem)
+                cell.isSelectedItem = true
+            }
+        }
     }
     
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
@@ -135,10 +146,17 @@ extension IngredientsVC: UITableViewDelegate {
         } else {
             deselectedItem = items[indexPath.row].IngredientName
         }
+        
         if let index = selectedItems.firstIndex(of: deselectedItem) {
             selectedItems.remove(at: index)
         }
+        
+        if let cell = tableView.cellForRow(at: indexPath) as? ingredientsTVC {
+            cell.isSelectedItem = selectedItems.contains(deselectedItem)
+        }
+        
     }
+    
 }
 
 // MARK: - UISearchResultsUpdating
