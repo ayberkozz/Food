@@ -52,7 +52,7 @@ class FoodsByIngredientsVC: UIViewController, FoodsByIngredientsViewModelOutput 
         let layout = UICollectionViewFlowLayout()
         foodCV = UICollectionView(frame: .zero, collectionViewLayout: layout)
         foodCV.translatesAutoresizingMaskIntoConstraints = false
-        foodCV.register(FoodsByIngredientsTVC.self, forCellWithReuseIdentifier: FoodsByIngredientsTVC.reuseIdentifier)
+        foodCV.register(FoodsByIngredientsCVC.self, forCellWithReuseIdentifier: FoodsByIngredientsCVC.reuseIdentifier)
         foodCV.delegate = self
         foodCV.dataSource = self
         
@@ -83,14 +83,14 @@ extension FoodsByIngredientsVC: UICollectionViewDelegate,UICollectionViewDataSou
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FoodsByIngredientsTVC.reuseIdentifier, for: indexPath) as! FoodsByIngredientsTVC
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FoodsByIngredientsCVC.reuseIdentifier, for: indexPath) as! FoodsByIngredientsCVC
         let foods = viewModel.AllFoodsByIngredients[indexPath.row]
         cell.configure(with: foods)
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.frame.width - 20, height: 150)
+        return CGSize(width: view.frame.width/2-20, height: 250)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

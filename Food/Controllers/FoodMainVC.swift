@@ -150,28 +150,20 @@ class FoodMainVC: UIViewController, FoodViewModelOutput {
         searchController.searchBar.showsBookmarkButton = true
         searchController.searchBar.setImage(UIImage(systemName: "line.horizontal.3.decrease"), for: .bookmark, state: .normal)
         
-        let layout = UICollectionViewFlowLayout()
-        ButtonCV = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        ButtonCV.translatesAutoresizingMaskIntoConstraints = false
-        ButtonCV.register(FoodsMainCVC.self, forCellWithReuseIdentifier: ButtonCVC.identifier)
-        ButtonCV.delegate = self
-        ButtonCV.dataSource = self
-        ButtonCV.backgroundColor = .systemBackground
-        
         ButtonStack.translatesAutoresizingMaskIntoConstraints = false
         ButtonStack.axis = .horizontal
         ButtonStack.spacing = 10
         
         buttonScrollView.translatesAutoresizingMaskIntoConstraints = false
         buttonScrollView.showsHorizontalScrollIndicator = false
-        buttonScrollView.contentSize = CGSize(width: (view.frame.width / 1.5 + 3 + 2) * 3, height: 50)
+        buttonScrollView.contentSize = CGSize(width: (view.frame.width / 2.5 + 15) * 4, height: 50)
         
         maxFatButton.translatesAutoresizingMaskIntoConstraints = false
         maxFatButton.setTitle("Max Fat", for: .normal)
         maxFatButton.addTarget(self, action: #selector(showDropdownMenu), for: .touchUpInside)
         maxFatButton.setTitleColor(.white, for: UIControl.State.normal)
         maxFatButton.backgroundColor = UIColor(red: 0.23, green: 0.37, blue: 0.04, alpha: 1.00)
-        maxFatButton.layer.cornerRadius = 10
+        maxFatButton.layer.cornerRadius = 5
         maxFatButton.contentEdgeInsets = UIEdgeInsets(top: 10.0, left: 10.0, bottom: 10.0, right: 10.0)
         
         numberButton.translatesAutoresizingMaskIntoConstraints = false
@@ -179,7 +171,7 @@ class FoodMainVC: UIViewController, FoodViewModelOutput {
         numberButton.addTarget(self, action: #selector(showNumberdownMenu), for: .touchUpInside)
         numberButton.setTitleColor(.white, for: UIControl.State.normal)
         numberButton.backgroundColor = UIColor(red: 0.23, green: 0.37, blue: 0.04, alpha: 1.00)
-        numberButton.layer.cornerRadius = 10
+        numberButton.layer.cornerRadius = 5
         numberButton.contentEdgeInsets = UIEdgeInsets(top: 10.0, left: 10.0, bottom: 10.0, right: 10.0)
 
         dietButton.translatesAutoresizingMaskIntoConstraints = false
@@ -187,7 +179,7 @@ class FoodMainVC: UIViewController, FoodViewModelOutput {
         dietButton.addTarget(self, action: #selector(showDietdownMenu), for: .touchUpInside)
         dietButton.setTitleColor(.white, for: UIControl.State.normal)
         dietButton.backgroundColor = UIColor(red: 0.23, green: 0.37, blue: 0.04, alpha: 1.00)
-        dietButton.layer.cornerRadius = 10
+        dietButton.layer.cornerRadius = 5
         dietButton.contentEdgeInsets = UIEdgeInsets(top: 10.0, left: 10.0, bottom: 10.0, right: 10.0)
         
         searchButton.translatesAutoresizingMaskIntoConstraints = false
@@ -195,7 +187,7 @@ class FoodMainVC: UIViewController, FoodViewModelOutput {
         searchButton.addTarget(self, action: #selector(searchButtonPressed), for: .touchUpInside)
         searchButton.setTitleColor(.white, for: UIControl.State.normal)
         searchButton.backgroundColor = UIColor(red: 0.23, green: 0.37, blue: 0.04, alpha: 1.00)
-        searchButton.layer.cornerRadius = 10
+        searchButton.layer.cornerRadius = 5
         searchButton.contentEdgeInsets = UIEdgeInsets(top: 10.0, left: 10.0, bottom: 10.0, right: 10.0)
         
         let layout1 = UICollectionViewFlowLayout()
@@ -220,7 +212,6 @@ class FoodMainVC: UIViewController, FoodViewModelOutput {
     
     func layout() {
         
-//        view.addSubview(ButtonStack)
         view.addSubview(buttonScrollView)
         view.addSubview(FoodsCV)
         view.addSubview(searchLabel)
@@ -228,8 +219,8 @@ class FoodMainVC: UIViewController, FoodViewModelOutput {
         buttonScrollView.addSubview(ButtonStack)
         
         ButtonStack.addArrangedSubview(maxFatButton)
-        ButtonStack.addArrangedSubview(numberButton)
         ButtonStack.addArrangedSubview(dietButton)
+        ButtonStack.addArrangedSubview(numberButton)
         ButtonStack.addArrangedSubview(searchButton)
         
         NSLayoutConstraint.activate([
