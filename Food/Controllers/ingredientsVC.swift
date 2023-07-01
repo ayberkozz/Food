@@ -93,7 +93,7 @@ class IngredientsVC: UIViewController {
 
 // MARK: - UITableView
 
-extension IngredientsVC: UITableViewDataSource,UITableViewDelegate {
+extension IngredientsVC: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if isFiltering() {
             return filteredItems.count
@@ -115,6 +115,7 @@ extension IngredientsVC: UITableViewDataSource,UITableViewDelegate {
         cell.textLabel?.text = item.IngredientName
         cell.isSelectedItem = selectedItems.contains(item.IngredientName)
         cell.selectionStyle = .none
+                
         return cell
     }
     
@@ -125,7 +126,7 @@ extension IngredientsVC: UITableViewDataSource,UITableViewDelegate {
         } else {
             selectedItem = items[indexPath.row].IngredientName
         }
-        
+
         if let cell = tableView.cellForRow(at: indexPath) as? ingredientsTVC {
             if selectedItems.contains(selectedItem) {
                 if let index = selectedItems.firstIndex(of: selectedItem) {
@@ -136,27 +137,22 @@ extension IngredientsVC: UITableViewDataSource,UITableViewDelegate {
                 selectedItems.append(selectedItem)
                 cell.isSelectedItem = true
             }
+
+            moveSelectedItemToTop(selectedItem)
         }
     }
-    
-    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        let deselectedItem: String
-        if isFiltering() {
-            deselectedItem = filteredItems[indexPath.row].IngredientName
-        } else {
-            deselectedItem = items[indexPath.row].IngredientName
+
+    private func moveSelectedItemToTop(_ selectedItem: String) {
+        guard let index = items.firstIndex(where: { $0.IngredientName == selectedItem }) else {
+            return
         }
-        
-        if let index = selectedItems.firstIndex(of: deselectedItem) {
-            selectedItems.remove(at: index)
-        }
-        
-        if let cell = tableView.cellForRow(at: indexPath) as? ingredientsTVC {
-            cell.isSelectedItem = selectedItems.contains(deselectedItem)
-        }
-        
+
+        let selectedItem = items.remove(at: index)
+        items.insert(selectedItem, at: 0)
+
+        // Reload the table view to reflect the changes
+        tv.reloadData()
     }
-    
 }
 
 // MARK: - UISearchResultsUpdating
