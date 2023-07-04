@@ -100,7 +100,8 @@ class RecipeVC: UIViewController, RecipeViewModelOutput {
     private func style() {
         
         navigationItem.title = "Recipe Detail"
-        
+        self.navigationController?.navigationBar.prefersLargeTitles = false
+
         view.backgroundColor = .white
         
         let navBarAppearance = UINavigationBarAppearance()
@@ -117,9 +118,9 @@ class RecipeVC: UIViewController, RecipeViewModelOutput {
         titleView.translatesAutoresizingMaskIntoConstraints = false
         titleView.layer.cornerRadius = 15
         titleView.backgroundColor = .white
-        titleView.layer.borderColor = UIColor.gray.cgColor
-        titleView.layer.borderWidth = 1.0
-        
+//        titleView.layer.borderColor = UIColor.gray.cgColor
+//        titleView.layer.borderWidth = 1.0
+                
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
         titleLabel.numberOfLines = 0
@@ -294,7 +295,8 @@ extension RecipeVC : UITableViewDelegate,UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .default, reuseIdentifier: "cellIdentifier")
         if let ingredient = recipe?.extendedIngredients[indexPath.row] {
-            cell.textLabel?.text = ingredient.name
+            cell.textLabel?.text = ingredient.original
+            cell.textLabel?.numberOfLines  = 0
         }
         return cell
     }

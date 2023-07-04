@@ -27,7 +27,7 @@ class IngredientsVC: UIViewController {
     }
     
     func loadIngredients() {
-        items = loadCSV(from: "top-1k-ingredients")
+        items = loadCSV(from: "ingredients")
     }
     
     @objc private func searchButtonIngre() {

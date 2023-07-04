@@ -129,13 +129,14 @@ class FoodMainVC: UIViewController, FoodViewModelOutput {
         } else {
             viewModel.fetchFoods(query: searchController.searchBar.text, maxFat: maxFat, number: number, diet: Diet)
         }
+//        print("\(searchController.searchBar.text).....\(maxFat).....\(number).....\(Diet).....😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂")
     }
     
     func style() {
         
         view.backgroundColor = .white
         
-        self.navigationItem.title = "Food🥘"
+        self.navigationItem.title = "What would you like to cook today?"
         self.navigationController?.navigationBar.prefersLargeTitles = true
         self.navigationItem.largeTitleDisplayMode = .always
         
