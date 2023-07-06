@@ -23,16 +23,12 @@ class FoodViewModel {
         self.foodService = foodService
     }
     
-    func fetchFoods(query: String?, maxFat: Int?, number: Int?, diet : String?) {
+    func fetchFoods(query: String?, parameters: SearchParameters) {
         
         let endpoint: Endpoint
         
-        if let number = number {
-            endpoint = Endpoint.complexSearch(query: query, maxFat: maxFat, number: number, diet: diet)
-        } else {
-            endpoint = Endpoint.complexSearch(query: query, maxFat: maxFat, number: nil, diet: diet)
-        }
-        
+        endpoint = Endpoint.complexSearch(query: query, maxFat: parameters.maxFat, diet: parameters.diet, number: parameters.number)
+
         foodService.fetchFoods(with: endpoint) { (result: Result<FoodModel, FoodServiceError>) in
             switch result {
             case .success(let foods):
@@ -44,5 +40,6 @@ class FoodViewModel {
             }
         }
     }
+    
 }
 

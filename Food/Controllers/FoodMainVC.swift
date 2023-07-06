@@ -29,9 +29,11 @@ class FoodMainVC: UIViewController, FoodViewModelOutput {
     private var FoodsCV : UICollectionView!
     private var ButtonCV : UICollectionView!
     
-    var maxFat = Int()
-    var number = Int()
-    var Diet = String()
+//    var maxFat: Int?
+//    var number = Int()
+//    var Diet = String()
+    
+    var searchParameters = SearchParameters()
     
     let maxFatMenu: DropDown = {
         let menu = DropDown()
@@ -87,17 +89,17 @@ class FoodMainVC: UIViewController, FoodViewModelOutput {
     private func setupDropdownMenu() {
         maxFatMenu.anchorView = maxFatButton
         maxFatMenu.selectionAction = { [weak self] index, item in
-            self?.maxFat = Int(item)!
+            self?.searchParameters.maxFat = Int(item)
         }
         
         Numbermenu.anchorView = numberButton
         Numbermenu.selectionAction = { [weak self] index, item1 in
-            self?.number = Int(item1)!
+            self?.searchParameters.number = Int(item1)
         }
         
         DietMenu.anchorView = dietButton
         DietMenu.selectionAction = { [weak self] index, item1 in
-            self?.Diet = item1
+            self?.searchParameters.diet = item1
         }
     }
     
@@ -124,19 +126,15 @@ class FoodMainVC: UIViewController, FoodViewModelOutput {
     }
 
     @objc private func searchButtonPressed() {
-        if number == 0 {
-            viewModel.fetchFoods(query: searchController.searchBar.text, maxFat: maxFat, number: nil, diet: Diet)
-        } else {
-            viewModel.fetchFoods(query: searchController.searchBar.text, maxFat: maxFat, number: number, diet: Diet)
-        }
-//        print("\(searchController.searchBar.text).....\(maxFat).....\(number).....\(Diet).....😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂")
+        let query = searchController.searchBar.text
+        viewModel.fetchFoods(query: query, parameters: searchParameters)
     }
-    
+
     func style() {
         
         view.backgroundColor = .white
         
-        self.navigationItem.title = "What would you like to cook today?"
+        self.navigationItem.title = "Foods🥘"
         self.navigationController?.navigationBar.prefersLargeTitles = true
         self.navigationItem.largeTitleDisplayMode = .always
         

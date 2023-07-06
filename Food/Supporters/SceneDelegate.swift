@@ -21,11 +21,20 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let viewModel = FoodViewModel(foodService: foodService)
         let foodMainVC = FoodMainVC(viewModel: viewModel)
         let navigationController = UINavigationController(rootViewController: foodMainVC)
-        navigationController.tabBarItem = UITabBarItem(title: "Food", image: UIImage(systemName: "fork.knife"), tag: 0)
         
+        navigationController.tabBarItem = UITabBarItem(title: "Food", image: UIImage(systemName: "fork.knife"), tag: 0)
+        navigationController.tabBarItem.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor(red: 0.23, green: 0.37, blue: 0.04, alpha: 1.00)], for: .normal)
+        navigationController.tabBarItem.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor(red: 0.23, green: 0.37, blue: 0.04, alpha: 1.00)], for: .selected)
+        navigationController.tabBarItem.image = UIImage(systemName: "fork.knife")?.withRenderingMode(.alwaysOriginal)
+        navigationController.tabBarItem.selectedImage = UIImage(systemName: "fork.knife")?.withRenderingMode(.alwaysOriginal)
         
         let navigationController1 = UINavigationController(rootViewController: IngredientsVC())
+        
         navigationController1.tabBarItem = UITabBarItem(title: "Ingredients ", image: UIImage(systemName: "carrot"), tag: 0)
+        navigationController1.tabBarItem.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor(red: 0.23, green: 0.37, blue: 0.04, alpha: 1.00)], for: .normal)
+        navigationController1.tabBarItem.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor(red: 0.23, green: 0.37, blue: 0.04, alpha: 1.00)], for: .selected)
+        navigationController1.tabBarItem.image = UIImage(systemName: "carrot")?.withRenderingMode(.alwaysOriginal)
+        navigationController1.tabBarItem.selectedImage = UIImage(systemName: "carrot")?.withRenderingMode(.alwaysOriginal)
         
         let tabBarController = UITabBarController()
         tabBarController.viewControllers = [navigationController, navigationController1]

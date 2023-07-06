@@ -70,8 +70,8 @@ class RecipeVC: UIViewController, RecipeViewModelOutput {
             self.cookingMinutesLabel.text = "Cooking Minutes:\(String(describing: self.recipe.cookingMinutes))"
             self.HealthScoreLabel.text = "Health Score:\(String(describing: self.recipe.healthScore))"
             self.updateBoolLabel(label: self.vegetarianLabel, value: self.recipe.vegetarian, text: "Vegetarian:")
-            self.updateBoolLabel(label: self.veganLabel, value: self.recipe.vegetarian, text: "Vegan:")
-            self.updateBoolLabel(label: self.dairyFreeLabel, value: self.recipe.vegetarian, text: "Dairy Free:")
+            self.updateBoolLabel(label: self.veganLabel, value: self.recipe.vegan, text: "Vegan:")
+            self.updateBoolLabel(label: self.dairyFreeLabel, value: self.recipe.dairyFree, text: "Dairy Free:")
             self.updateBoolLabel(label: self.glutenFreeLabel, value: self.recipe.glutenFree, text: "Gluten Free:")
 
             self.foodImage.sd_setImage(with: URL(string: self.recipe.image)) { image, error, cacheType, url in
@@ -79,6 +79,7 @@ class RecipeVC: UIViewController, RecipeViewModelOutput {
                     self.foodImage.image = UIImage(systemName: "photo")
                 }
             }
+            
         }
     }
     
