@@ -28,7 +28,8 @@ class RecipeVC: UIViewController, RecipeViewModelOutput {
     private let view1 = UIView()
 
     private let ingredientsButton = UIButton()
-    
+    private let HeartButton = UIButton(type: .custom)
+
     private let titleLabel = UILabel()
     
     private var ingTableView = UITableView()
@@ -90,6 +91,7 @@ class RecipeVC: UIViewController, RecipeViewModelOutput {
 
         style()
         layout()
+        setupHeartButton()
     }
     
     private func updateBoolLabel(label: UILabel, value: Bool, text: String) {
@@ -284,6 +286,29 @@ class RecipeVC: UIViewController, RecipeViewModelOutput {
             Features.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.9),
             
         ])
+    }
+    
+    private func setupHeartButton() {
+        let hollowHeartImage = UIImage(named: "hollowHeart")
+        
+        HeartButton.setImage(hollowHeartImage, for: .normal)
+        HeartButton.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+        HeartButton.addTarget(self, action: #selector(heartButtonTapped), for: .touchUpInside)
+
+        let containerView = UIView(frame: CGRect(x: 0, y: 0, width: 30, height: 30))
+        containerView.addSubview(HeartButton)
+
+        let heartBarButtonItem = UIBarButtonItem(customView: containerView)
+
+        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+
+        navigationItem.rightBarButtonItems = [flexibleSpace, heartBarButtonItem]
+    }
+
+    @objc private func heartButtonTapped() {
+        let isFilled = HeartButton.image(for: .normal) == UIImage(named: "heart")
+        let newImage = isFilled ? UIImage(named: "hollowHeart") : UIImage(named: "heart")
+        HeartButton.setImage(newImage, for: .normal)
     }
 
 }
