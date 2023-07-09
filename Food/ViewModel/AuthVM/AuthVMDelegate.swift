@@ -10,5 +10,9 @@ import Foundation
 protocol AuthViewModelDelegate: AnyObject {
     func didSignUpSuccessfully()
     func didSignInSuccessfully()
+
+}
+
+protocol AuthOutViewModelDelegate: AnyObject {
     func didSignOutSuccessfully()
 }

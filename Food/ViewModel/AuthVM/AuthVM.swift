@@ -10,10 +10,11 @@ import Firebase
 
 class AuthViewModel {
     
-    private var showError : Bool = false
+    var showError : Bool = false
     weak var delegate: AuthViewModelDelegate?
+    weak var delegateOut: AuthOutViewModelDelegate?
     
-    private func signUp(email: String, username:String, password: String) {
+    func signUp(email: String, username:String, password: String) {
         Auth.auth().createUser(withEmail: email, password: password) { result, error in
             guard error == nil else {
                 print(error?.localizedDescription ?? "Error creating user")
@@ -38,7 +39,7 @@ class AuthViewModel {
         
     }
     
-    private func signIn(email: String, password: String) {
+    func signIn(email: String, password: String) {
         
         Auth.auth().signIn(withEmail: email, password: password) { result ,error in
             guard error == nil else {
@@ -50,9 +51,9 @@ class AuthViewModel {
         
     }
     
-    private func logOut(){
+    func logOut(){
         try? Auth.auth().signOut()
-        self.delegate?.didSignOutSuccessfully()
+        self.delegateOut?.didSignOutSuccessfully()
     }
     
 }
