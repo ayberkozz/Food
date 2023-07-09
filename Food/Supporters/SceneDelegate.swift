@@ -41,6 +41,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     func setTabBarControllerAsRootViewController() {
+        
+        let navigationController2 = UINavigationController(rootViewController: SideMenuContainerVC())
+        
+        navigationController2.tabBarItem = UITabBarItem(title: "Home ", image: UIImage(systemName: "house"), tag: 0)
+        navigationController2.tabBarItem.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor(red: 0.23, green: 0.37, blue: 0.04, alpha: 1.00)], for: .normal)
+        navigationController2.tabBarItem.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor(red: 0.23, green: 0.37, blue: 0.04, alpha: 1.00)], for: .selected)
+        navigationController2.tabBarItem.image = UIImage(systemName: "house")?.withRenderingMode(.alwaysOriginal)
+        navigationController2.tabBarItem.selectedImage = UIImage(systemName: "house")?.withRenderingMode(.alwaysOriginal)
+        
         let foodService: FoodServiceProtocol = FoodService()
         let viewModel = FoodViewModel(foodService: foodService)
         let foodMainVC = FoodMainVC(viewModel: viewModel)
@@ -61,7 +70,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         navigationController1.tabBarItem.selectedImage = UIImage(systemName: "carrot")?.withRenderingMode(.alwaysOriginal)
         
         let tabBarController = UITabBarController()
-        tabBarController.viewControllers = [navigationController, navigationController1]
+        tabBarController.viewControllers = [navigationController2, navigationController, navigationController1]
         
         replaceRootViewController(with: tabBarController)
     }

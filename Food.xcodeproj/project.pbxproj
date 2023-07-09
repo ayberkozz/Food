@@ -28,6 +28,9 @@
 		4B67CAA32A59865A00AEC306 /* AuthVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B67CAA22A59865A00AEC306 /* AuthVC.swift */; };
 		4B67CAA62A59DC8800AEC306 /* AuthVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B67CAA52A59DC8700AEC306 /* AuthVM.swift */; };
 		4B67CAA82A59F65600AEC306 /* AuthVMDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B67CAA72A59F65600AEC306 /* AuthVMDelegate.swift */; };
+		4B67CAAA2A5AF47100AEC306 /* SideMenuVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B67CAA92A5AF47100AEC306 /* SideMenuVC.swift */; };
+		4B67CAB02A5B21FF00AEC306 /* SideMenuContainerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B67CAAF2A5B21FF00AEC306 /* SideMenuContainerVC.swift */; };
+		4B67CAB22A5B22CF00AEC306 /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B67CAB12A5B22CF00AEC306 /* HomeVC.swift */; };
 		4B6F6A6D2A38EC0100E09B60 /* HTTP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B6F6A6C2A38EC0100E09B60 /* HTTP.swift */; };
 		4B6F6A6F2A38F17000E09B60 /* FoodViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B6F6A6E2A38F17000E09B60 /* FoodViewModel.swift */; };
 		4B6F6A712A38F17B00E09B60 /* FoodViewModelStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B6F6A702A38F17B00E09B60 /* FoodViewModelStorage.swift */; };
@@ -67,6 +70,9 @@
 		4B67CAA22A59865A00AEC306 /* AuthVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthVC.swift; sourceTree = "<group>"; };
 		4B67CAA52A59DC8700AEC306 /* AuthVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthVM.swift; sourceTree = "<group>"; };
 		4B67CAA72A59F65600AEC306 /* AuthVMDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthVMDelegate.swift; sourceTree = "<group>"; };
+		4B67CAA92A5AF47100AEC306 /* SideMenuVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuVC.swift; sourceTree = "<group>"; };
+		4B67CAAF2A5B21FF00AEC306 /* SideMenuContainerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuContainerVC.swift; sourceTree = "<group>"; };
+		4B67CAB12A5B22CF00AEC306 /* HomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVC.swift; sourceTree = "<group>"; };
 		4B6F6A6C2A38EC0100E09B60 /* HTTP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTP.swift; sourceTree = "<group>"; };
 		4B6F6A6E2A38F17000E09B60 /* FoodViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodViewModel.swift; sourceTree = "<group>"; };
 		4B6F6A702A38F17B00E09B60 /* FoodViewModelStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodViewModelStorage.swift; sourceTree = "<group>"; };
@@ -153,6 +159,7 @@
 		4B4F0DEA2A331DC400D3F8EA /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				4B67CAAB2A5AF66700AEC306 /* HomeVC */,
 				4B67CAA22A59865A00AEC306 /* AuthVC.swift */,
 				4B4F0DDA2A331D7A00D3F8EA /* FoodMainVC.swift */,
 				4BFDE8B22A3E4FE500568381 /* ingredientsVC.swift */,
@@ -216,6 +223,16 @@
 				4B67CAA72A59F65600AEC306 /* AuthVMDelegate.swift */,
 			);
 			path = AuthVM;
+			sourceTree = "<group>";
+		};
+		4B67CAAB2A5AF66700AEC306 /* HomeVC */ = {
+			isa = PBXGroup;
+			children = (
+				4B67CAB12A5B22CF00AEC306 /* HomeVC.swift */,
+				4B67CAA92A5AF47100AEC306 /* SideMenuVC.swift */,
+				4B67CAAF2A5B21FF00AEC306 /* SideMenuContainerVC.swift */,
+			);
+			path = HomeVC;
 			sourceTree = "<group>";
 		};
 		4BAA7FBE2A44FEBD00CEE249 /* RecipeVM */ = {
@@ -318,6 +335,7 @@
 			packageReferences = (
 				4B2018DB2A39BE220043F705 /* XCRemoteSwiftPackageReference "SDWebImage" */,
 				4B67CA972A59812800AEC306 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				4B67CAAC2A5AF82C00AEC306 /* XCRemoteSwiftPackageReference "SideMenu" */,
 			);
 			productRefGroup = 4B4F0DD42A331D7A00D3F8EA /* Products */;
 			projectDirPath = "";
@@ -398,14 +416,17 @@
 				4B88DF212A37C14500393E0D /* Endpoint.swift in Sources */,
 				4B492DE42A3A7BBE00A8579B /* FoodsByIngredientsCVC.swift in Sources */,
 				4BAA7FBD2A44FEB900CEE249 /* RecipeViewModel.swift in Sources */,
+				4B67CAB22A5B22CF00AEC306 /* HomeVC.swift in Sources */,
 				4BFDE8AD2A3D26EE00568381 /* FoodsByIngredientsViewModel.swift in Sources */,
 				4BAA7FB92A44FC3E00CEE249 /* RecipeVC.swift in Sources */,
 				4BFDE8B52A3E506B00568381 /* ingredientsTVC.swift in Sources */,
 				4B4F0DD72A331D7A00D3F8EA /* AppDelegate.swift in Sources */,
 				4B67CAA62A59DC8800AEC306 /* AuthVM.swift in Sources */,
+				4B67CAAA2A5AF47100AEC306 /* SideMenuVC.swift in Sources */,
 				4B6F6A6F2A38F17000E09B60 /* FoodViewModel.swift in Sources */,
 				4B6F6A712A38F17B00E09B60 /* FoodViewModelStorage.swift in Sources */,
 				4B492DE22A3A757D00A8579B /* FoodsByIngredientsVC.swift in Sources */,
+				4B67CAB02A5B21FF00AEC306 /* SideMenuContainerVC.swift in Sources */,
 				4B4F0DD92A331D7A00D3F8EA /* SceneDelegate.swift in Sources */,
 				4BFDE8B32A3E4FE500568381 /* ingredientsVC.swift in Sources */,
 				4B9405632A49C5DD002F73A7 /* RecipeModel.swift in Sources */,
@@ -643,6 +664,14 @@
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 10.0.0;
+			};
+		};
+		4B67CAAC2A5AF82C00AEC306 /* XCRemoteSwiftPackageReference "SideMenu" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kukushi/SideMenu.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */

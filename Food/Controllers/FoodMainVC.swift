@@ -29,10 +29,6 @@ class FoodMainVC: UIViewController, FoodViewModelOutput {
     private var FoodsCV : UICollectionView!
     private var ButtonCV : UICollectionView!
     
-//    var maxFat: Int?
-//    var number = Int()
-//    var Diet = String()
-    
     var searchParameters = SearchParameters()
     
     let maxFatMenu: DropDown = {
@@ -133,6 +129,7 @@ class FoodMainVC: UIViewController, FoodViewModelOutput {
     func style() {
         
         view.backgroundColor = .white
+        
         
         self.navigationItem.title = "Foods🥘"
         self.navigationController?.navigationBar.prefersLargeTitles = true
