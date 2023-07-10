@@ -6,9 +6,10 @@
 //
 
 import UIKit
+import Firebase
 
-class SideMenuContainerVC: UIViewController {
-    
+class SideMenuContainerVC: UIViewController,AuthOutViewModelDelegate {
+        
     enum MenuState {
         case opened
         case closed
@@ -16,17 +17,31 @@ class SideMenuContainerVC: UIViewController {
     
     private var menuState: MenuState = .closed
     
-    let sideMenuVC = SideMenuVC()
+    let authViewModel = AuthViewModel()
+
+    var userService: UserServiceProtocol!
+    var viewModel: UserViewModel!
+    var sideMenuVC: SideMenuVC!
+    
     let homeVC = HomeVC()
+    
     var navVC: UINavigationController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        userService = UserService()
+        viewModel = UserViewModel(UserService: userService)
+        sideMenuVC = SideMenuVC(viewModel: viewModel)
+        
+        
+        authViewModel.delegateOut = self
         addChildsVCs()
+        
     }
     
     private func addChildsVCs() {
+        sideMenuVC.delegate = self
         addChild(sideMenuVC)
         view.addSubview(sideMenuVC.view)
         sideMenuVC.didMove(toParent: self)
@@ -40,11 +55,21 @@ class SideMenuContainerVC: UIViewController {
         self.navVC = navVC
     }
     
+    func didSignOutSuccessfully() {
+        let authVC = AuthVC()
+        authVC.modalPresentationStyle = .fullScreen
+        present(authVC, animated: true, completion: nil)
+    }
+    
 }
 
 extension SideMenuContainerVC : HomeVCDelegate {
     
     func openSideMenu() {
+        toggleMenu(completion: nil)
+    }
+    
+    func toggleMenu(completion: (() -> Void )?) {
         switch menuState {
         case .closed:
             UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0, options: .curveEaseInOut) {
@@ -60,9 +85,29 @@ extension SideMenuContainerVC : HomeVCDelegate {
             } completion: { [weak self] done in
                 if done {
                     self?.menuState = .closed
+                    DispatchQueue.main.async {
+                        completion?()
+                    }
                 }
             }
             
+        }
+    }
+}
+
+extension SideMenuContainerVC: SideMenuDelegate {
+    
+    func didSelect(menuItem: SideMenuVC.MenuOptions) {
+        openSideMenu()
+        toggleMenu { [weak self] in
+            switch menuItem {
+            case .Favorites:
+                break
+            case .shareApp:
+                break
+            case .logout:
+                self?.authViewModel.logOut()
+            }
         }
     }
     

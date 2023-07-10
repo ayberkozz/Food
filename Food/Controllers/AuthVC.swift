@@ -37,14 +37,14 @@ class AuthVC: UIViewController,AuthViewModelDelegate {
     }
     
     @objc private func signUpButtonTapped() {
-        let email = EmailTextField.text ?? ""
+        let email = EmailTextField.text?.lowercased() ?? ""
         let username = UsernameTextField.text ?? ""
         let password = passwordTextField.text ?? ""
         authViewModel.signUp(email: email, username: username, password: password)
     }
 
     @objc private func signInButtonTapped() {
-        let email = EmailTextField.text ?? ""
+        let email = EmailTextField.text?.lowercased() ?? ""
         let password = passwordTextField.text ?? ""
         authViewModel.signIn(email: email, password: password)
     }
