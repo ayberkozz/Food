@@ -93,7 +93,7 @@ class RecipeVC: UIViewController, RecipeViewModelOutput {
 
         viewModel.fetchRecipe(id: foodId)
         userViewModel.fetchUser()
-
+        print("\(AuthModel.sharedUserInfo.username)🤒🤒🤒🤒🤒🤒🤒🤒🤒🤒🤒🤒🤒🤒🤒🤒🤒🤒🤒🤒🤒🤒🤒🤒🤒🤒🤒🤒🤒🤒🤒🤒🤒🤒🤒🤒🤒🤒🤒🤒🤒🤒🤒🤒🤒")
         style()
         layout()
         setupHeartButton()
@@ -328,7 +328,8 @@ class RecipeVC: UIViewController, RecipeViewModelOutput {
     }
     
     private func addToFavs() {
-        FavList.append(String(recipe.id))
+        let id = recipe.id
+        FavList.append(String(id))
         let fbService = FBService()
         fbService.FBService(favIDs: FavList)
         print("Added to favorites")

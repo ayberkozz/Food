@@ -37,7 +37,7 @@ class FBService : FBServiceProtocol {
                         
                     }
                 } else {
-                    let favDictionary = ["favs":[favIDs], "username":AuthModel.sharedUserInfo.username] as [String:Any]
+                    let favDictionary = ["favs":favIDs, "username":AuthModel.sharedUserInfo.username] as [String:Any]
                     
                     self.fireStore.collection("fav").addDocument(data: favDictionary) { err in
                         if err != nil {
