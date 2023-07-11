@@ -135,19 +135,5 @@ class SideMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
             tv.topAnchor.constraint(equalToSystemSpacingBelow: userVstack.bottomAnchor, multiplier: 5),
         ])
     }
-    
-//    private func getUserInfo() {
-//        UserService.shared.getUserInfo { [weak self] result in
-//            switch result {
-//            case .success(let authModel):
-//                DispatchQueue.main.async {
-//                    self?.UsernameLabel.text = authModel.username
-//                    self?.emailLabel.text = Auth.auth().currentUser?.email
-//                }
-//            case .failure(let error):
-//                print("Failed to get user information: \(error.localizedDescription)")
-//            }
-//        }
-//    }
 
 }

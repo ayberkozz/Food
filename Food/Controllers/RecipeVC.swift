@@ -7,6 +7,7 @@
 
 import UIKit
 import SDWebImage
+import Firebase
 
 class RecipeVC: UIViewController, RecipeViewModelOutput {
     
@@ -14,7 +15,8 @@ class RecipeVC: UIViewController, RecipeViewModelOutput {
     
     private let viewModel: RecipeViewModel
     private var recipe: RecipeModel!
-        
+    private let userViewModel = UserViewModel(UserService: UserService())
+
     private let scrollView = UIScrollView()
     
     private let contentView = UIView()
@@ -47,6 +49,8 @@ class RecipeVC: UIViewController, RecipeViewModelOutput {
     private let cookingMinutesLabel = UILabel()
     private let healtScoreLabel = UILabel()
         
+    private var FavList = [String]()
+
     init(viewModel: RecipeViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
@@ -88,6 +92,7 @@ class RecipeVC: UIViewController, RecipeViewModelOutput {
         super.viewDidLoad()
 
         viewModel.fetchRecipe(id: foodId)
+        userViewModel.fetchUser()
 
         style()
         layout()
@@ -307,10 +312,27 @@ class RecipeVC: UIViewController, RecipeViewModelOutput {
 
     @objc private func heartButtonTapped() {
         let isFilled = HeartButton.image(for: .normal) == UIImage(named: "heart")
-        let newImage = isFilled ? UIImage(named: "hollowHeart") : UIImage(named: "heart")
-        HeartButton.setImage(newImage, for: .normal)
+        
+        if isFilled {
+            removeFromFavs()
+            HeartButton.setImage(UIImage(named: "hollowHeart"), for: .normal)
+        } else {
+            addToFavs()
+            HeartButton.setImage(UIImage(named: "heart"), for: .normal)
+            
+        }
     }
 
+    private func removeFromFavs() {
+        print("Removed from favorites")
+    }
+    
+    private func addToFavs() {
+        FavList.append(String(recipe.id))
+        let fbService = FBService()
+        fbService.FBService(favIDs: FavList)
+        print("Added to favorites")
+    }
 }
 
 extension RecipeVC : UITableViewDelegate,UITableViewDataSource {

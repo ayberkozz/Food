@@ -67,6 +67,7 @@ extension SideMenuContainerVC : HomeVCDelegate {
     
     func openSideMenu() {
         toggleMenu(completion: nil)
+        tabBarController?.tabBar.isHidden = true
     }
     
     func toggleMenu(completion: (() -> Void )?) {
@@ -85,6 +86,7 @@ extension SideMenuContainerVC : HomeVCDelegate {
             } completion: { [weak self] done in
                 if done {
                     self?.menuState = .closed
+                    self?.tabBarController?.tabBar.isHidden = false
                     DispatchQueue.main.async {
                         completion?()
                     }
@@ -102,7 +104,8 @@ extension SideMenuContainerVC: SideMenuDelegate {
         toggleMenu { [weak self] in
             switch menuItem {
             case .Favorites:
-                break
+                let favVC = FavVC() // Replace with your actual view controller class
+                self?.navigationController?.pushViewController(favVC, animated: true)
             case .shareApp:
                 break
             case .logout:

@@ -69,7 +69,7 @@ class AuthVC: UIViewController,AuthViewModelDelegate {
         
         rootStackView.translatesAutoresizingMaskIntoConstraints = false
         rootStackView.axis = .vertical
-        rootStackView.spacing = 20
+        rootStackView.spacing = 40
         rootStackView.alignment = .center
         
         foodIcon.translatesAutoresizingMaskIntoConstraints = false

@@ -14,6 +14,10 @@ class UserViewModel {
     
     private (set) var User : AuthModel? {
         didSet {
+            if let user = User {
+                AuthModel.sharedUserInfo.email = user.email
+                AuthModel.sharedUserInfo.username = user.username
+            }
             output?.updateView(value: User!)
         }
     }
@@ -27,6 +31,8 @@ class UserViewModel {
             switch result {
             case .success(let user):
                 self?.User = user
+                AuthModel.sharedUserInfo.email = user.email
+                AuthModel.sharedUserInfo.username = user.username
             case .failure(let error):
                 print("Failed to get user information: \(error.localizedDescription)")
             }
