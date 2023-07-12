@@ -9,13 +9,16 @@ import UIKit
 import SDWebImage
 import Firebase
 
-class RecipeVC: UIViewController, RecipeViewModelOutput {
+class RecipeVC: UIViewController, RecipeViewModelOutput, FavListVMOutput {
     
     var foodId: Int = 0
     
     private let viewModel: RecipeViewModel
     private var recipe: RecipeModel!
     private let userViewModel = UserViewModel(UserService: UserService())
+
+    private var favListService: FavListProtocol!
+    private var favListViewModel: FavListViewModel!
 
     private let scrollView = UIScrollView()
     
@@ -88,15 +91,33 @@ class RecipeVC: UIViewController, RecipeViewModelOutput {
         }
     }
     
+    func updateFavs(value: FavListModel) {
+        self.FavList = value.favs
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         viewModel.fetchRecipe(id: foodId)
         userViewModel.fetchUser()
-        print("\(AuthModel.sharedUserInfo.username)🤒🤒🤒🤒🤒🤒🤒🤒🤒🤒🤒🤒🤒🤒🤒🤒🤒🤒🤒🤒🤒🤒🤒🤒🤒🤒🤒🤒🤒🤒🤒🤒🤒🤒🤒🤒🤒🤒🤒🤒🤒🤒🤒🤒🤒")
         style()
         layout()
         setupHeartButton()
+        
+        var favListService = FavListService()
+        favListService.fetchFavList { result in
+            switch result {
+            case .success(let favListModel):
+                print("Fetched favorites: \(favListModel.favs)")
+            case .failure(let error):
+                print("Error fetching favorites: \(error)")
+            }
+        }
+        
+        favListService = FavListService()
+        favListViewModel = FavListViewModel(favListService: favListService)
+        favListViewModel.output = self
+        favListViewModel.fetchFavList()
     }
     
     private func updateBoolLabel(label: UILabel, value: Bool, text: String) {
@@ -319,7 +340,6 @@ class RecipeVC: UIViewController, RecipeViewModelOutput {
         } else {
             addToFavs()
             HeartButton.setImage(UIImage(named: "heart"), for: .normal)
-            
         }
     }
 
@@ -334,6 +354,7 @@ class RecipeVC: UIViewController, RecipeViewModelOutput {
         fbService.FBService(favIDs: FavList)
         print("Added to favorites")
     }
+    
 }
 
 extension RecipeVC : UITableViewDelegate,UITableViewDataSource {

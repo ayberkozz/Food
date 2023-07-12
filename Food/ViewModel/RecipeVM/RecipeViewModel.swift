@@ -34,7 +34,6 @@ class RecipeViewModel {
             switch result {
             case .success(let recipe):
                 self.Recipe = recipe
-                print(recipe)
             case .failure(let error):
                 print("Failed to fetch foods: \(error.localizedDescription)")
             }

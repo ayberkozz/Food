@@ -150,10 +150,8 @@ class FoodsByIngredientsCVC: UICollectionViewCell {
         self.likeCount.text = "♡\(food.likes)"
         self.foodImage.sd_setImage(with: URL(string: food.image)) { image, error, cacheType, url in
             if let error = error {
-                print("Error loading image: \(error)🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴")
+                print("Error loading image: \(error)🔴🔴🔴")
                 self.foodImage.image = UIImage(systemName: "photo")
-            } else {
-                print("Image loaded successfully✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅")
             }
         }
     }
