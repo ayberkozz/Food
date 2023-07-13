@@ -94,7 +94,7 @@ extension FoodsByIngredientsVC: UICollectionViewDelegate,UICollectionViewDataSou
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let viewModel = RecipeViewModel(foodService: FoodService())
+        let viewModel = RecipeViewModel(foodService: FoodService(), favListService: FavListService())
         let recipeVC = RecipeVC(viewModel: viewModel)
         recipeVC.foodId = foodsByIngredients[indexPath.row].id
         navigationController?.pushViewController(recipeVC, animated: true)

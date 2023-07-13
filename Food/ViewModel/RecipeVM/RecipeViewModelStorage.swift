@@ -10,5 +10,6 @@ import UIKit
 
 protocol RecipeViewModelOutput : AnyObject {
     func updateView(value: RecipeModel)
+    func updateFavList(value: FavListModel)
 }
 

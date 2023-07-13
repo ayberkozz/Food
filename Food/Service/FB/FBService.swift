@@ -29,10 +29,7 @@ class FBService : FBServiceProtocol {
                         let additionalDictionary = ["favs": favIDs] as [String : Any]
                         
                         self.fireStore.collection("fav").document(documentId).setData(additionalDictionary, merge: true) { err in
-                            if err == nil {
-                                print("data uploaded (set")
-                            }
-                            
+
                         }
                         
                     }

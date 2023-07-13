@@ -27,7 +27,6 @@ class ButtonCVC: UICollectionViewCell {
         NSLayoutConstraint.activate([
 
 
-
         ])
         
     }
