@@ -64,9 +64,6 @@ class FoodsMainCVC: UICollectionViewCell {
             Vstack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 2),
             Vstack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -2),
             Vstack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -2),
-
-//            foodImage.heightAnchor.constraint(equalToConstant: contentView.frame.size.height / 1.5),
-//            foodImage.widthAnchor.constraint(equalToConstant: contentView.frame.size.width / 1.2),
             
             foodImage.widthAnchor.constraint(equalToConstant: contentView.frame.width),
             foodImage.heightAnchor.constraint(equalToConstant: contentView.frame.height / 2),

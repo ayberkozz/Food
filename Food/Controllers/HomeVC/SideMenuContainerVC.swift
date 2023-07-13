@@ -104,7 +104,7 @@ extension SideMenuContainerVC: SideMenuDelegate {
         toggleMenu { [weak self] in
             switch menuItem {
             case .Favorites:
-                let favVC = FavVC(viewModel: RecipeViewModel(foodService: FoodService(), favListService: FavListService())) 
+                let favVC = FavVC(viewModel: FavListViewModel(foodService: FoodService(), favListService: FavListService())) 
                 self?.navigationController?.pushViewController(favVC, animated: true)
             case .shareApp:
                 break

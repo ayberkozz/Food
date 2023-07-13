@@ -11,7 +11,7 @@ import SDWebImage
 class favCVC: UICollectionViewCell {
     
     static let identifier = "CustomCollectionViewCell"
-    private(set) var food: FoodDetailModel!
+    private(set) var Recipe: RecipeModel!
     
     private let Vstack : UIStackView = {
         let Vstack = UIStackView()
@@ -31,7 +31,7 @@ class favCVC: UICollectionViewCell {
     private let title : UILabel = {
         let title = UILabel()
         title.textColor = .white
-        title.textAlignment = .left
+        title.textAlignment = .center
         title.font = .systemFont(ofSize: 20, weight: .semibold)
         title.numberOfLines = 0
         return title
@@ -40,36 +40,35 @@ class favCVC: UICollectionViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         contentView.layer.cornerRadius = 20
-//        foodImage.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
-//        foodImage.layer.cornerRadius = 20
+        foodImage.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
+        foodImage.layer.cornerRadius = 20
     }
     
     func layout() {
         
-        contentView.backgroundColor = UIColor(red: 0.23, green: 0.37, blue: 0.04, alpha: 1.00)
-//        self.foodImage.tintColor = UIColor.black
-//
-//        contentView.addSubview(Vstack)
-//
-//        Vstack.addArrangedSubview(foodImage)
-//        Vstack.addArrangedSubview(title)
-//
-//        Vstack.translatesAutoresizingMaskIntoConstraints = false
-//        foodImage.translatesAutoresizingMaskIntoConstraints = false
-//        title.translatesAutoresizingMaskIntoConstraints = false
+        contentView.backgroundColor = UIColor(red: 0.77, green: 0.07, blue: 0.02, alpha: 1.00)
+        
+        contentView.addSubview(title)
+        self.foodImage.tintColor = UIColor.black
+
+        contentView.addSubview(Vstack)
+
+        Vstack.addArrangedSubview(foodImage)
+        Vstack.addArrangedSubview(title)
+
+        Vstack.translatesAutoresizingMaskIntoConstraints = false
+        foodImage.translatesAutoresizingMaskIntoConstraints = false
+        title.translatesAutoresizingMaskIntoConstraints = false
 
         NSLayoutConstraint.activate([
 
-//            Vstack.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 2),
-//            Vstack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 2),
-//            Vstack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -2),
-//            Vstack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -2),
-//
-//            foodImage.heightAnchor.constraint(equalToConstant: contentView.frame.size.height / 1.5),
-//            foodImage.widthAnchor.constraint(equalToConstant: contentView.frame.size.width / 1.2),
-//
-//            foodImage.widthAnchor.constraint(equalToConstant: contentView.frame.width),
-//            foodImage.heightAnchor.constraint(equalToConstant: contentView.frame.height / 2),
+            Vstack.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 2),
+            Vstack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 2),
+            Vstack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -2),
+            Vstack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -2),
+
+            foodImage.widthAnchor.constraint(equalToConstant: contentView.frame.width),
+            foodImage.heightAnchor.constraint(equalToConstant: contentView.frame.height / 2),
 
         ])
         
@@ -84,20 +83,21 @@ class favCVC: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-//    public func configure(with food:FoodDetailModel) {
-//        self.food = food
-//        self.title.text = food.title
-//        self.foodImage.sd_setImage(with: URL(string:food.image)) { image, error, cacheType, url in
-//            if let error = error {
-//                self.foodImage.image = UIImage(systemName: "photo")
-//            }
-//        }
-//    }
+    public func configure(with Recipe:RecipeModel) {
+        self.Recipe = Recipe
+        self.title.text = "\(Recipe.title)"
+        self.foodImage.sd_setImage(with: URL(string:Recipe.image)) { image, error, cacheType, url in
+            if let error = error {
+                self.foodImage.image = UIImage(systemName: "photo")
+            }
+        }
+    }
     
-//    //MARK: - PrepareForReuse
-//    override func prepareForReuse() {
-//        super.prepareForReuse()
-//        self.title.text = nil
-//        self.foodImage.image = nil
-//    }
+    
+    //MARK: - PrepareForReuse
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        self.title.text = nil
+        self.foodImage.image = nil
+    }
 }
