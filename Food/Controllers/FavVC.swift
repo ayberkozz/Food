@@ -79,6 +79,7 @@ class FavVC: UIViewController, FavListVMOutput{
         favCV.delegate = self
         favCV.dataSource = self
         favCV.backgroundColor = .systemBackground
+        favCV.showsHorizontalScrollIndicator = false
         
     }
     
@@ -109,11 +110,6 @@ extension FavVC : UICollectionViewDataSource, UICollectionViewDelegate, UICollec
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: favCVC.identifier, for: indexPath) as! favCVC
         fetchRecipeForCell(withID: FavList[indexPath.row], at: indexPath)
-//        if let recipe = recipe {
-//            cell.configure(with: recipe)
-//        } else {
-//            cell.prepareForReuse()
-//        }
         return cell
     }
     
@@ -122,7 +118,10 @@ extension FavVC : UICollectionViewDataSource, UICollectionViewDelegate, UICollec
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
+        let viewModel = RecipeViewModel(foodService: FoodService(), favListService: FavListService())
+        let recipeVC = RecipeVC(viewModel: viewModel)
+        recipeVC.foodId = Int(FavList[indexPath.row])!
+        navigationController?.pushViewController(recipeVC, animated: true)
     }
     
 }

@@ -62,7 +62,7 @@ class favCVC: UICollectionViewCell {
 
         NSLayoutConstraint.activate([
 
-            Vstack.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 2),
+            Vstack.topAnchor.constraint(equalTo: contentView.topAnchor),
             Vstack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 2),
             Vstack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -2),
             Vstack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -2),
@@ -87,7 +87,7 @@ class favCVC: UICollectionViewCell {
         self.Recipe = Recipe
         self.title.text = "\(Recipe.title)"
         self.foodImage.sd_setImage(with: URL(string:Recipe.image)) { image, error, cacheType, url in
-            if let error = error {
+            if error != nil {
                 self.foodImage.image = UIImage(systemName: "photo")
             }
         }
