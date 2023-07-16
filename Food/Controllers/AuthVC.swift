@@ -29,11 +29,17 @@ class AuthVC: UIViewController,AuthViewModelDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         authViewModel.delegate = self
         
         style()
         layout()
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(viewTapped))
+        view.addGestureRecognizer(tapGesture)
+    }
+    
+    @objc private func viewTapped() {
+        view.endEditing(true)
     }
     
     @objc private func signUpButtonTapped() {
@@ -93,6 +99,7 @@ class AuthVC: UIViewController,AuthViewModelDelegate {
         EmailTextField.placeholder = "Email"
         EmailTextField.backgroundColor = .white
         EmailTextField.layer.cornerRadius = 10
+        EmailTextField.keyboardType = .emailAddress
         
         let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: EmailTextField.frame.height))
         EmailTextField.leftView = paddingView

@@ -7,7 +7,12 @@
 
 import Foundation
 
-// MARK: - Recipe1Model
+// MARK: - Welcome
+struct RandomRecipe: Codable {
+    let recipes: [RecipeModel]
+}
+
+// MARK: - Recipe
 struct RecipeModel: Codable {
     let vegetarian, vegan, glutenFree, dairyFree: Bool
     let veryHealthy, cheap, veryPopular, sustainable: Bool
@@ -15,7 +20,7 @@ struct RecipeModel: Codable {
     let weightWatcherSmartPoints: Int
     let gaps: String
     let preparationMinutes, cookingMinutes, aggregateLikes, healthScore: Int
-    let creditsText, sourceName: String
+    let creditsText, license, sourceName: String
     let pricePerServing: Double
     let extendedIngredients: [ExtendedIngredient]
     let id: Int
@@ -27,16 +32,15 @@ struct RecipeModel: Codable {
     let cuisines: [JSONAny]
     let dishTypes, diets: [String]
     let occasions: [JSONAny]
-    let winePairing: WinePairing
     let instructions: String
     let analyzedInstructions: [AnalyzedInstruction]
     let originalID: JSONNull?
     let spoonacularSourceURL: String
 
     enum CodingKeys: String, CodingKey {
-        case vegetarian, vegan, glutenFree, dairyFree, veryHealthy, cheap, veryPopular, sustainable, lowFodmap, weightWatcherSmartPoints, gaps, preparationMinutes, cookingMinutes, aggregateLikes, healthScore, creditsText, sourceName, pricePerServing, extendedIngredients, id, title, readyInMinutes, servings
+        case vegetarian, vegan, glutenFree, dairyFree, veryHealthy, cheap, veryPopular, sustainable, lowFodmap, weightWatcherSmartPoints, gaps, preparationMinutes, cookingMinutes, aggregateLikes, healthScore, creditsText, license, sourceName, pricePerServing, extendedIngredients, id, title, readyInMinutes, servings
         case sourceURL = "sourceUrl"
-        case image, imageType, summary, cuisines, dishTypes, diets, occasions, winePairing, instructions, analyzedInstructions
+        case image, imageType, summary, cuisines, dishTypes, diets, occasions, instructions, analyzedInstructions
         case originalID = "originalId"
         case spoonacularSourceURL = "spoonacularSourceUrl"
     }
@@ -53,12 +57,19 @@ struct Step: Codable {
     let number: Int
     let step: String
     let ingredients, equipment: [Ent]
+    let length: Length?
 }
 
 // MARK: - Ent
 struct Ent: Codable {
     let id: Int
     let name, localizedName, image: String
+}
+
+// MARK: - Length
+struct Length: Codable {
+    let number: Int
+    let unit: String
 }
 
 // MARK: - ExtendedIngredient
@@ -87,13 +98,6 @@ struct Measures: Codable {
 struct Metric: Codable {
     let amount: Double
     let unitShort, unitLong: String
-}
-
-// MARK: - WinePairing
-struct WinePairing: Codable {
-    let pairedWines: [JSONAny]
-    let pairingText: String
-    let productMatches: [JSONAny]
 }
 
 // MARK: - Encode/decode helpers

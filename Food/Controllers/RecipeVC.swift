@@ -10,9 +10,7 @@ import SDWebImage
 import Firebase
 
 class RecipeVC: UIViewController, RecipeViewModelOutput{
-    
-    var foodId: Int = 0
-    
+        
     private let viewModel: RecipeViewModel
     private var recipe: RecipeModel!
     private let userViewModel = UserViewModel(UserService: UserService())
@@ -51,6 +49,8 @@ class RecipeVC: UIViewController, RecipeViewModelOutput{
         
     private var FavList = [String]()
 
+    var foodId = Int()
+    
     init(viewModel: RecipeViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
@@ -91,14 +91,14 @@ class RecipeVC: UIViewController, RecipeViewModelOutput{
         self.FavList = value.favs
     }
     
-//    func updateFavs(value: FavListModel) {
-//        self.FavList = value.favs
-//    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        viewModel.fetchRecipe(id: foodId)
+        if foodId == 0 {
+            viewModel.fetchRandomRecipe()
+        } else {
+            viewModel.fetchRecipe(id: foodId)
+        }
         userViewModel.fetchUser()
         viewModel.fetchFavList()
 
@@ -107,10 +107,6 @@ class RecipeVC: UIViewController, RecipeViewModelOutput{
         setupHeartButton()
         
         
-//        favListService = FavListService()
-//        favListViewModel = FavListViewModel(favListService: favListService)
-//        favListViewModel.output = self
-//        favListViewModel.fetchFavList()
     }
     
     private func updateBoolLabel(label: UILabel, value: Bool, text: String) {
@@ -309,8 +305,11 @@ class RecipeVC: UIViewController, RecipeViewModelOutput{
     
     private func setupHeartButton() {
         let hollowHeartImage = UIImage(named: "hollowHeart")
-        
-        HeartButton.setImage(hollowHeartImage, for: .normal)
+        let heartImage = UIImage(named: "heart")
+
+        let isFilled = isRecipeInFavList()
+
+        HeartButton.setImage(isFilled ? heartImage : hollowHeartImage, for: .normal)
         HeartButton.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
         HeartButton.addTarget(self, action: #selector(heartButtonTapped), for: .touchUpInside)
 
@@ -323,10 +322,10 @@ class RecipeVC: UIViewController, RecipeViewModelOutput{
 
         navigationItem.rightBarButtonItems = [flexibleSpace, heartBarButtonItem]
     }
-
+    
     @objc private func heartButtonTapped() {
-        let isFilled = HeartButton.image(for: .normal) == UIImage(named: "heart")
-        
+        let isFilled = isRecipeInFavList()
+
         if isFilled {
             removeFromFavs()
             HeartButton.setImage(UIImage(named: "hollowHeart"), for: .normal)
@@ -334,6 +333,14 @@ class RecipeVC: UIViewController, RecipeViewModelOutput{
             addToFavs()
             HeartButton.setImage(UIImage(named: "heart"), for: .normal)
         }
+        
+    }
+    
+    private func isRecipeInFavList() -> Bool {
+        guard let recipeId = recipe?.id else {
+            return false
+        }
+        return FavList.contains(String(recipeId))
     }
 
     private func removeFromFavs() {

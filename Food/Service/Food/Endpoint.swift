@@ -12,6 +12,7 @@ enum Endpoint {
     case complexSearch(query: String?, maxFat: Int?, diet: String?, number: Int?)
     case findByIngredients(ingredients: [String]/*, number: Int?*/)
     case recipe(id:Int)
+    case randomRecipe
     
     var request: URLRequest? {
         guard let url = self.url else { return nil }
@@ -46,14 +47,13 @@ enum Endpoint {
             components = URLComponents(string: Constants.baseURL + "/recipes/findByIngredients")
             let ingredientList = ingredients.joined(separator: ",+").addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
             queryItems.append(URLQueryItem(name: "ingredients", value: ingredientList))
-//            if let number = number {
-//                queryItems.append(URLQueryItem(name: "number", value: String(number)))
-//            }
-            
+
         case .recipe(let id):
             components = URLComponents(string: Constants.baseURL + "/recipes/\(id)/information")
+            
+        case .randomRecipe:
+            components = URLComponents(string: Constants.baseURL + "/recipes/random")
         }
-    
         
         queryItems.append(URLQueryItem(name: "apiKey", value: Constants.API_KEY))
         components?.queryItems = queryItems
@@ -73,7 +73,7 @@ enum Endpoint {
 extension URLRequest {
     mutating func addValues(for endpoint: Endpoint) {
         switch endpoint {
-        case .complexSearch, .findByIngredients, .recipe:
+        case .complexSearch, .findByIngredients, .recipe, .randomRecipe:
             self.setValue(HTTP.Headers.Value.applicationJson.rawValue, forHTTPHeaderField: HTTP.Headers.Key.contentType.rawValue)
         }
     }

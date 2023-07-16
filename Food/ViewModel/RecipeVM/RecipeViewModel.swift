@@ -30,6 +30,19 @@ class RecipeViewModel {
         self.favListService = favListService
     }
     
+    func fetchRandomRecipe() {
+        let endpoint = Endpoint.randomRecipe
+        foodService.fetchFoods(with: endpoint) { [weak self] (result: Result<RandomRecipe, FoodServiceError>) in
+            switch result {
+            case .success(let randomRecipe):
+                // Handle the fetched random recipe data
+                self?.Recipe = randomRecipe.recipes.first
+            case .failure(let error):
+                print("Failed to fetch random recipe: \(error.localizedDescription)")
+            }
+        }
+    }
+    
     func fetchRecipe(id: Int!) {
         
         guard let id = id else {

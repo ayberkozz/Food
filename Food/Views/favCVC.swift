@@ -23,7 +23,7 @@ class favCVC: UICollectionViewCell {
     
     private let foodImage : UIImageView = {
         let foodImage = UIImageView()
-        foodImage.contentMode = .scaleAspectFit
+        foodImage.contentMode = .scaleToFill
         foodImage.clipsToBounds = true
         return foodImage
     }()
@@ -67,6 +67,7 @@ class favCVC: UICollectionViewCell {
             Vstack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -2),
             Vstack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -2),
 
+            foodImage.topAnchor.constraint(equalToSystemSpacingBelow: Vstack.topAnchor, multiplier: 0.2),
             foodImage.widthAnchor.constraint(equalToConstant: contentView.frame.width),
             foodImage.heightAnchor.constraint(equalToConstant: contentView.frame.height / 2),
 

@@ -37,11 +37,11 @@ class SideMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     private var User: AuthModel!
     
     private let userVstack = UIStackView()
+    private let topView = UIView()
     private let UsernameLabel = UILabel()
     private let emailLabel = UILabel()
     private let tv = UITableView()
     
-
     let fireStoreDatabase = Firestore.firestore()
     
     init(viewModel: UserViewModel) {
@@ -94,19 +94,24 @@ class SideMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     private func style() {
         view.backgroundColor = UIColor(red: 0.23, green: 0.37, blue: 0.04, alpha: 1.00)
         
-        tv.translatesAutoresizingMaskIntoConstraints = false
-        tv.delegate = self
-        tv.dataSource = self
-        tv.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
-        tv.backgroundColor = UIColor(red: 0.23, green: 0.37, blue: 0.04, alpha: 1.00)
-        tv.separatorStyle = .none
-        
+        topView.translatesAutoresizingMaskIntoConstraints = false
+        topView.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+        topView.layer.cornerRadius = 20
+        topView.backgroundColor = UIColor(red: 0.31, green: 0.47, blue: 0.26, alpha: 1.00)
+
         userVstack.translatesAutoresizingMaskIntoConstraints = false
         userVstack.axis = .vertical
         userVstack.alignment = .leading
         userVstack.spacing = 3
         userVstack.isLayoutMarginsRelativeArrangement = true
         userVstack.layoutMargins = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        
+        tv.translatesAutoresizingMaskIntoConstraints = false
+        tv.delegate = self
+        tv.dataSource = self
+        tv.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        tv.backgroundColor = UIColor(red: 0.23, green: 0.37, blue: 0.04, alpha: 1.00)
+        tv.separatorStyle = .none
         
         UsernameLabel.translatesAutoresizingMaskIntoConstraints = false
         UsernameLabel.font = UIFont.systemFont(ofSize: 20, weight: .heavy)
@@ -120,19 +125,27 @@ class SideMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     }
     
     private func layout() {
-        view.addSubview(userVstack)
+        
+        view.addSubview(topView)
         view.addSubview(tv)
+        
+        topView.addSubview(userVstack)
         
         userVstack.addArrangedSubview(UsernameLabel)
         userVstack.addArrangedSubview(emailLabel)
         
         NSLayoutConstraint.activate([
+            
+            topView.topAnchor.constraint(equalTo: view.topAnchor),
+            topView.heightAnchor.constraint(equalToConstant: view.frame.height / 4),
+            topView.widthAnchor.constraint(equalToConstant: view.frame.width/2 + 20),
+            
             userVstack.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            userVstack.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            userVstack.leadingAnchor.constraint(equalTo: topView.leadingAnchor),
             
             tv.widthAnchor.constraint(equalToConstant: view.frame.width),
             tv.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            tv.topAnchor.constraint(equalToSystemSpacingBelow: userVstack.bottomAnchor, multiplier: 5),
+            tv.topAnchor.constraint(equalToSystemSpacingBelow: topView.bottomAnchor, multiplier: 5),
         ])
     }
 

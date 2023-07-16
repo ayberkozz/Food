@@ -68,9 +68,9 @@ class FavVC: UIViewController, FavListVMOutput{
         view.backgroundColor = .white
         
         self.navigationItem.title = "Favorites❤️"
-        self.navigationController?.navigationBar.prefersLargeTitles = true
+        self.navigationController?.navigationBar.prefersLargeTitles = false
         self.navigationItem.largeTitleDisplayMode = .always
-        
+                
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         favCV = UICollectionView(frame: .zero, collectionViewLayout: layout)

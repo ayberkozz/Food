@@ -45,6 +45,8 @@ class HomeVC: UIViewController {
     
     weak var delegate: HomeVCDelegate?
     
+    var foodId = Int()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -58,6 +60,10 @@ class HomeVC: UIViewController {
     }
     
     private func handleRandomRecipeAction() {
+        let viewModel = RecipeViewModel(foodService: FoodService(), favListService: FavListService())
+        let recipeVC = RecipeVC(viewModel: viewModel)
+        recipeVC.foodId = 0
+        navigationController?.pushViewController(recipeVC, animated: true)
     }
 
     private func handleSearchFoodsAction() {
