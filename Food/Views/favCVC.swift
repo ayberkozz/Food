@@ -13,64 +13,69 @@ class favCVC: UICollectionViewCell {
     static let identifier = "CustomCollectionViewCell"
     private(set) var Recipe: RecipeModel!
     
-    private let Vstack : UIStackView = {
-        let Vstack = UIStackView()
-        Vstack.axis = .vertical
-        Vstack.spacing = 2
-        Vstack.alignment = .center
-        return Vstack
+    let containerView: UIView = {
+        let view = UIView()
+        view.clipsToBounds = true
+        view.layer.cornerRadius = 12
+        return view
     }()
     
-    private let foodImage : UIImageView = {
-        let foodImage = UIImageView()
-        foodImage.contentMode = .scaleToFill
-        foodImage.clipsToBounds = true
-        return foodImage
+    let imageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
+        return imageView
     }()
     
-    private let title : UILabel = {
+    private let bottomView : UIView = {
+        let bottomView = UIView()
+        bottomView.backgroundColor = UIColor(white: 0.9, alpha: 0.9)
+        return bottomView
+    }()
+    
+    let title: UILabel = {
         let title = UILabel()
-        title.textColor = .white
-        title.textAlignment = .center
-        title.font = .systemFont(ofSize: 20, weight: .semibold)
         title.numberOfLines = 0
+        title.font = .systemFont(ofSize: 20, weight: .semibold)
+        title.textColor = .white
         return title
     }()
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        contentView.layer.cornerRadius = 20
-        foodImage.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
-        foodImage.layer.cornerRadius = 20
     }
-    
+        
     func layout() {
+
+        contentView.addSubview(containerView)
+        containerView.addSubview(imageView)
+        containerView.addSubview(bottomView)
         
-        contentView.backgroundColor = UIColor(red: 0.77, green: 0.07, blue: 0.02, alpha: 1.00)
-        
-        contentView.addSubview(title)
-        self.foodImage.tintColor = UIColor.black
+        bottomView.addSubview(title)
 
-        contentView.addSubview(Vstack)
-
-        Vstack.addArrangedSubview(foodImage)
-        Vstack.addArrangedSubview(title)
-
-        Vstack.translatesAutoresizingMaskIntoConstraints = false
-        foodImage.translatesAutoresizingMaskIntoConstraints = false
+        containerView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        bottomView.translatesAutoresizingMaskIntoConstraints = false
         title.translatesAutoresizingMaskIntoConstraints = false
 
         NSLayoutConstraint.activate([
-
-            Vstack.topAnchor.constraint(equalTo: contentView.topAnchor),
-            Vstack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 2),
-            Vstack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -2),
-            Vstack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -2),
-
-            foodImage.topAnchor.constraint(equalToSystemSpacingBelow: Vstack.topAnchor, multiplier: 0.2),
-            foodImage.widthAnchor.constraint(equalToConstant: contentView.frame.width),
-            foodImage.heightAnchor.constraint(equalToConstant: contentView.frame.height / 2),
-
+            containerView.topAnchor.constraint(equalTo: self.topAnchor),
+            containerView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            containerView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            containerView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            
+            imageView.topAnchor.constraint(equalTo: self.topAnchor),
+            imageView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            imageView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            imageView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            
+            bottomView.widthAnchor.constraint(equalToConstant: self.frame.width),
+            bottomView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            bottomView.heightAnchor.constraint(equalToConstant: self.frame.height / 4),
+            
+            title.leadingAnchor.constraint(equalTo: bottomView.leadingAnchor, constant: 8),
+            title.trailingAnchor.constraint(equalTo: bottomView.trailingAnchor, constant: -8),
+            title.centerYAnchor.constraint(equalTo: bottomView.centerYAnchor),
         ])
         
     }
@@ -87,9 +92,9 @@ class favCVC: UICollectionViewCell {
     public func configure(with Recipe:RecipeModel) {
         self.Recipe = Recipe
         self.title.text = "\(Recipe.title)"
-        self.foodImage.sd_setImage(with: URL(string:Recipe.image)) { image, error, cacheType, url in
+        self.imageView.sd_setImage(with: URL(string:Recipe.image)) { image, error, cacheType, url in
             if error != nil {
-                self.foodImage.image = UIImage(systemName: "photo")
+                self.imageView.image = UIImage(systemName: "photo")
             }
         }
     }
@@ -99,6 +104,6 @@ class favCVC: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         self.title.text = nil
-        self.foodImage.image = nil
+        self.imageView.image = nil
     }
 }

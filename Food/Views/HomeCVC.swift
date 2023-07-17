@@ -30,8 +30,6 @@ class HomeCVC: UICollectionViewCell {
         BottomStack.axis = .vertical
         BottomStack.alignment = .leading
         BottomStack.spacing = 10
-//        BottomStack.backgroundColor = UIColor(white: 0.8, alpha: 0.8)
-//        BottomStack.distribution = .fill
         return BottomStack
     }()
     

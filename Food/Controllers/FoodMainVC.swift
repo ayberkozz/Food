@@ -124,6 +124,9 @@ class FoodMainVC: UIViewController, FoodViewModelOutput {
     @objc private func searchButtonPressed() {
         let query = searchController.searchBar.text
         viewModel.fetchFoods(query: query, parameters: searchParameters)
+        maxFatMenu.clearSelection()
+        Numbermenu.clearSelection()
+        DietMenu.clearSelection()
     }
 
     func style() {

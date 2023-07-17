@@ -16,6 +16,9 @@ class FavVC: UIViewController, FavListVMOutput{
     private var favCV : UICollectionView!
     private var FavList = [String]()
     
+    let cellWidth: CGFloat = 300
+    let extraPad: CGFloat = 85/2
+    
     init(viewModel: FavListViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
@@ -45,8 +48,6 @@ class FavVC: UIViewController, FavListVMOutput{
         }
     }
 
-    
-
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -54,6 +55,7 @@ class FavVC: UIViewController, FavListVMOutput{
         viewModel.fetchFavList()
         style()
         layout()
+        setData()
         
     }
     
@@ -64,23 +66,27 @@ class FavVC: UIViewController, FavListVMOutput{
         }
     }
     
+    
     private func style() {
+        
         view.backgroundColor = .white
         
         self.navigationItem.title = "Favorites❤️"
         self.navigationController?.navigationBar.prefersLargeTitles = false
         self.navigationItem.largeTitleDisplayMode = .always
                 
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .horizontal
-        favCV = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        let flowLayout = SnappingCollectionViewLayout()
+        flowLayout.scrollDirection = .horizontal
+        flowLayout.minimumLineSpacing = 0
+        favCV = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
         favCV.translatesAutoresizingMaskIntoConstraints = false
         favCV.register(favCVC.self, forCellWithReuseIdentifier: favCVC.identifier)
+        favCV.contentInset = UIEdgeInsets(top: 0, left: extraPad, bottom: 0, right: extraPad)
         favCV.delegate = self
         favCV.dataSource = self
-        favCV.backgroundColor = .systemBackground
+        favCV.decelerationRate = UIScrollView.DecelerationRate.fast
         favCV.showsHorizontalScrollIndicator = false
-        
+
     }
     
     private func layout() {
@@ -91,7 +97,7 @@ class FavVC: UIViewController, FavListVMOutput{
           
             favCV.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             favCV.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            favCV.leadingAnchor.constraint(equalToSystemSpacingAfter: view.leadingAnchor, multiplier: 1),
+            favCV.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             favCV.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             favCV.heightAnchor.constraint(equalToConstant: view.frame.height)
             
@@ -101,6 +107,7 @@ class FavVC: UIViewController, FavListVMOutput{
 
 }
 
+
 extension FavVC : UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -109,13 +116,15 @@ extension FavVC : UICollectionViewDataSource, UICollectionViewDelegate, UICollec
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: favCVC.identifier, for: indexPath) as! favCVC
+        cell.containerView.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
         fetchRecipeForCell(withID: FavList[indexPath.row], at: indexPath)
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.frame.width/1.5, height: 400)
+        return CGSize(width: cellWidth, height: 500)
     }
+
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let viewModel = RecipeViewModel(foodService: FoodService(), favListService: FavListService())
@@ -125,3 +134,42 @@ extension FavVC : UICollectionViewDataSource, UICollectionViewDelegate, UICollec
     }
     
 }
+
+extension FavVC {
+    
+    func setData() {
+        let indexPath = IndexPath(row: 0, section: 0)
+        DispatchQueue.main.async {
+            self.favCV.scrollToItem(at: indexPath,
+                                             at: .centeredHorizontally,
+                                             animated: false)
+            if indexPath.row == 0 {
+                let cell = self.favCV.cellForItem(at: indexPath) as? favCVC
+                cell?.containerView.transform = .identity
+            }
+        }
+    }
+    
+    func checkOffsetValue(scrollView: UIScrollView) {
+        let xOffset = scrollView.contentOffset.x + extraPad
+        let curIndex = Int(xOffset/cellWidth)
+        let nextIndex = curIndex + 1
+        let offsetInCurrentContext = xOffset - CGFloat(curIndex) * cellWidth
+        
+        let value = (((offsetInCurrentContext / cellWidth) * 100 ) * 0.2 ) / 100
+
+        let currentCell = favCV.cellForItem(at: IndexPath(row: curIndex, section: 0)) as? favCVC
+        let nextCell = favCV.cellForItem(at: IndexPath(row: nextIndex, section: 0)) as? favCVC
+        
+        currentCell?.containerView.transform = CGAffineTransform(scaleX: 1 - value, y: 1 - value)
+        nextCell?.containerView.transform = CGAffineTransform(scaleX: 0.8 + value, y: 0.8 + value)
+    }
+    
+}
+
+extension FavVC {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        checkOffsetValue(scrollView: scrollView)
+    }
+}
+

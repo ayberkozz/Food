@@ -50,6 +50,7 @@
 		4B9C05872A5F15FB00C3D392 /* FavViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9C05862A5F15FB00C3D392 /* FavViewModel.swift */; };
 		4B9C05892A5F199800C3D392 /* FavListVMStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9C05882A5F199800C3D392 /* FavListVMStorage.swift */; };
 		4B9C12A42A640BB00005B8FA /* RandomRVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9C12A32A640BB00005B8FA /* RandomRVM.swift */; };
+		4B9C12AA2A65C7CA0005B8FA /* SnappingCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9C12A92A65C7CA0005B8FA /* SnappingCollectionViewLayout.swift */; };
 		4BAA7FB92A44FC3E00CEE249 /* RecipeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BAA7FB82A44FC3E00CEE249 /* RecipeVC.swift */; };
 		4BAA7FBD2A44FEB900CEE249 /* RecipeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BAA7FBC2A44FEB900CEE249 /* RecipeViewModel.swift */; };
 		4BAA7FC02A44FED100CEE249 /* RecipeViewModelStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BAA7FBF2A44FED100CEE249 /* RecipeViewModelStorage.swift */; };
@@ -104,6 +105,7 @@
 		4B9C05862A5F15FB00C3D392 /* FavViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavViewModel.swift; sourceTree = "<group>"; };
 		4B9C05882A5F199800C3D392 /* FavListVMStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavListVMStorage.swift; sourceTree = "<group>"; };
 		4B9C12A32A640BB00005B8FA /* RandomRVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomRVM.swift; sourceTree = "<group>"; };
+		4B9C12A92A65C7CA0005B8FA /* SnappingCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnappingCollectionViewLayout.swift; sourceTree = "<group>"; };
 		4BAA7FB82A44FC3E00CEE249 /* RecipeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeVC.swift; sourceTree = "<group>"; };
 		4BAA7FBC2A44FEB900CEE249 /* RecipeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeViewModel.swift; sourceTree = "<group>"; };
 		4BAA7FBF2A44FED100CEE249 /* RecipeViewModelStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeViewModelStorage.swift; sourceTree = "<group>"; };
@@ -240,6 +242,7 @@
 				4B4F0DDF2A331D7B00D3F8EA /* Assets.xcassets */,
 				4B4F0DE12A331D7B00D3F8EA /* LaunchScreen.storyboard */,
 				4B88DF222A37C15C00393E0D /* Constants.swift */,
+				4B9C12A92A65C7CA0005B8FA /* SnappingCollectionViewLayout.swift */,
 				4B92F7112A54C36700E1699A /* ingredients.csv */,
 			);
 			path = Supporters;
@@ -522,6 +525,7 @@
 				4B4F0DD92A331D7A00D3F8EA /* SceneDelegate.swift in Sources */,
 				4BFDE8B32A3E4FE500568381 /* ingredientsVC.swift in Sources */,
 				4B9405632A49C5DD002F73A7 /* RecipeModel.swift in Sources */,
+				4B9C12AA2A65C7CA0005B8FA /* SnappingCollectionViewLayout.swift in Sources */,
 				4B8061372A5C94070080B8BC /* UserViewModelStorage.swift in Sources */,
 				4B9C05832A5EC4B900C3D392 /* FavListModel.swift in Sources */,
 				4B67CAA32A59865A00AEC306 /* AuthVC.swift in Sources */,
