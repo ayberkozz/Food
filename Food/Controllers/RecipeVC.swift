@@ -84,11 +84,15 @@ class RecipeVC: UIViewController, RecipeViewModelOutput{
                     self.foodImage.image = UIImage(systemName: "photo")
                 }
             }
+            self.setupHeartButton()
         }
     }
     
     func updateFavList(value: FavListModel) {
         self.FavList = value.favs
+        DispatchQueue.main.async {
+            self.setupHeartButton()
+        }
     }
     
     override func viewDidLoad() {
@@ -104,9 +108,6 @@ class RecipeVC: UIViewController, RecipeViewModelOutput{
 
         style()
         layout()
-        setupHeartButton()
-        
-        
     }
     
     private func updateBoolLabel(label: UILabel, value: Bool, text: String) {
@@ -136,8 +137,6 @@ class RecipeVC: UIViewController, RecipeViewModelOutput{
         titleView.translatesAutoresizingMaskIntoConstraints = false
         titleView.layer.cornerRadius = 15
         titleView.backgroundColor = .white
-//        titleView.layer.borderColor = UIColor.gray.cgColor
-//        titleView.layer.borderWidth = 1.0
                 
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
@@ -303,6 +302,11 @@ class RecipeVC: UIViewController, RecipeViewModelOutput{
         ])
     }
     
+    
+}
+
+extension RecipeVC {
+    
     private func setupHeartButton() {
         let hollowHeartImage = UIImage(named: "hollowHeart")
         let heartImage = UIImage(named: "heart")
@@ -322,7 +326,7 @@ class RecipeVC: UIViewController, RecipeViewModelOutput{
 
         navigationItem.rightBarButtonItems = [flexibleSpace, heartBarButtonItem]
     }
-    
+
     @objc private func heartButtonTapped() {
         let isFilled = isRecipeInFavList()
 
@@ -333,7 +337,6 @@ class RecipeVC: UIViewController, RecipeViewModelOutput{
             addToFavs()
             HeartButton.setImage(UIImage(named: "heart"), for: .normal)
         }
-        
     }
     
     private func isRecipeInFavList() -> Bool {
@@ -344,7 +347,15 @@ class RecipeVC: UIViewController, RecipeViewModelOutput{
     }
 
     private func removeFromFavs() {
-        print("Removed from favorites")
+        let id = recipe.id
+
+        if let index = FavList.firstIndex(of: String(id)) {
+            FavList.remove(at: index)
+
+            let fbService = FBService()
+            fbService.updateFavs(favIDs: FavList)
+            print("Removed from favorites")
+        }
     }
     
     private func addToFavs() {

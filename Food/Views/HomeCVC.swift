@@ -86,6 +86,7 @@ class HomeCVC: UICollectionViewCell {
             BottomStack.topAnchor.constraint(equalToSystemSpacingBelow: bottomView.topAnchor, multiplier: 3),
             BottomStack.leadingAnchor.constraint(equalToSystemSpacingAfter: bottomView.leadingAnchor, multiplier: 1),
             BottomStack.trailingAnchor.constraint(equalToSystemSpacingAfter: bottomView.trailingAnchor, multiplier: -1),
+            
         ])
         
         
