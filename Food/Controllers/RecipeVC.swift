@@ -110,6 +110,19 @@ class RecipeVC: UIViewController, RecipeViewModelOutput{
         layout()
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.colors = [UIColor.white.withAlphaComponent(0.5).cgColor,
+                                UIColor.white.withAlphaComponent(1).cgColor]
+        gradientLayer.locations = [0, 1]
+        gradientLayer.frame = titleView.bounds
+        if let existingGradientLayer = titleView.layer.sublayers?.first(where: { $0 is CAGradientLayer }) {
+            existingGradientLayer.removeFromSuperlayer()
+        }
+        titleView.layer.insertSublayer(gradientLayer, at: 0)
+    }
+    
     private func updateBoolLabel(label: UILabel, value: Bool, text: String) {
         let labelValue = value ? "\(text) ✅" : "\(text) ❌"
         label.text = labelValue
@@ -135,8 +148,6 @@ class RecipeVC: UIViewController, RecipeViewModelOutput{
         foodImage.layer.borderWidth = 1.0
         
         titleView.translatesAutoresizingMaskIntoConstraints = false
-        titleView.layer.cornerRadius = 15
-        titleView.backgroundColor = .white
                 
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
@@ -262,10 +273,9 @@ class RecipeVC: UIViewController, RecipeViewModelOutput{
             foodImage.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             foodImage.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 1/3),
 
-            titleView.centerYAnchor.constraint(equalTo: foodImage.bottomAnchor),
-            titleView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            titleView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.75),
-            titleView.heightAnchor.constraint(equalToConstant: view.frame.height/15),
+            titleView.bottomAnchor.constraint(equalTo: foodImage.bottomAnchor),
+            titleView.widthAnchor.constraint(equalToConstant: view.frame.width),
+            titleView.heightAnchor.constraint(equalTo: foodImage.heightAnchor, multiplier: 1/3),
 
             titleLabel.leadingAnchor.constraint(equalTo: titleView.leadingAnchor, constant: 8),
             titleLabel.trailingAnchor.constraint(equalTo: titleView.trailingAnchor, constant: -8),
