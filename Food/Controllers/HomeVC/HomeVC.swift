@@ -47,6 +47,12 @@ class HomeVC: UIViewController {
     
     var foodId = Int()
     
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationItem.title = "Home"
+        self.navigationController?.navigationBar.prefersLargeTitles = true
+        self.navigationItem.largeTitleDisplayMode = .always
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -80,10 +86,6 @@ class HomeVC: UIViewController {
     private func style() {
         
         view.backgroundColor = .white
-        
-        self.navigationItem.title = "Home"
-        self.navigationController?.navigationBar.prefersLargeTitles = true
-        self.navigationItem.largeTitleDisplayMode = .always
         
         let sideMenuButton = UIBarButtonItem(image: UIImage(systemName: "line.3.horizontal"), style: .plain, target: self, action: #selector(openSideMenu))
         navigationItem.leftBarButtonItem = sideMenuButton

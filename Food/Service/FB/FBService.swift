@@ -49,28 +49,4 @@ class FBService : FBServiceProtocol {
         }
     }
     
-    func updateFavs(favIDs: [String]) {
-          fireStore.collection("fav").whereField("username", isEqualTo: AuthModel.sharedUserInfo.username).getDocuments { snapshot, err in
-              if let err = err {
-                  print(err.localizedDescription)
-              } else {
-                  if let snapshot = snapshot {
-                      for document in snapshot.documents {
-                          let documentId = document.documentID
-                          let additionalDictionary = ["favs": favIDs] as [String : Any]
-
-                          // Update the Firestore document with the updated favs array
-                          self.fireStore.collection("fav").document(documentId).setData(additionalDictionary, merge: true) { err in
-                              if let err = err {
-                                  print(err.localizedDescription)
-                              } else {
-                                  print("data updated (remove)")
-                              }
-                          }
-                      }
-                  }
-              }
-          }
-      }
-    
 }

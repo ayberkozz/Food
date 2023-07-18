@@ -118,10 +118,10 @@ class RecipeVC: UIViewController, RecipeViewModelOutput{
     
     private func style() {
         
+        view.backgroundColor = .white
+        
         navigationItem.title = "Recipe Detail"
         self.navigationController?.navigationBar.prefersLargeTitles = false
-
-        view.backgroundColor = .white
         
         let navBarAppearance = UINavigationBarAppearance()
         navBarAppearance.titleTextAttributes = [.foregroundColor: UIColor.white]
@@ -353,9 +353,10 @@ extension RecipeVC {
             FavList.remove(at: index)
 
             let fbService = FBService()
-            fbService.updateFavs(favIDs: FavList)
+            fbService.FBService(favIDs: FavList)
             print("Removed from favorites")
         }
+        
     }
     
     private func addToFavs() {
