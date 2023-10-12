@@ -3,7 +3,6 @@
 //  Food
 //
 //  Created by Ayberk Öz on 15.06.2023.
-//
 
 import UIKit
 

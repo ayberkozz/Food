@@ -9,7 +9,7 @@ import Foundation
 import Firebase
 
 protocol FavListProtocol {
-    func fetchFavList(completion: @escaping (Result<FavListModel,Error>)-> Void)
+    func fetchFavList(completion: @escaping (Result<FavListModel,Error>) -> Void)
 }
 
 class FavListService : FavListProtocol {

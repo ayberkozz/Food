@@ -45,10 +45,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let navigationController2 = UINavigationController(rootViewController: SideMenuContainerVC())
         
         navigationController2.tabBarItem = UITabBarItem(title: "Home ", image: UIImage(systemName: "house"), tag: 0)
-        navigationController2.tabBarItem.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.black], for: .normal)
-        navigationController2.tabBarItem.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.black], for: .selected)
-        navigationController2.tabBarItem.image = UIImage(systemName: "house")?.withRenderingMode(.alwaysOriginal)
-        navigationController2.tabBarItem.selectedImage = UIImage(systemName: "house")?.withRenderingMode(.alwaysOriginal)
+//        navigationController2.tabBarItem.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.black], for: .normal)
+//        navigationController2.tabBarItem.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.black], for: .selected)
+        navigationController2.tabBarItem.image = UIImage(systemName: "house")?.withRenderingMode(.alwaysTemplate)
         
         let foodService: FoodServiceProtocol = FoodService()
         let viewModel = FoodViewModel(foodService: foodService)
@@ -56,18 +55,16 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let navigationController = UINavigationController(rootViewController: foodMainVC)
         
         navigationController.tabBarItem = UITabBarItem(title: "Food", image: UIImage(systemName: "fork.knife"), tag: 0)
-        navigationController.tabBarItem.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.black], for: .normal)
-        navigationController.tabBarItem.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.black], for: .selected)
-        navigationController.tabBarItem.image = UIImage(systemName: "fork.knife")?.withTintColor(.black, renderingMode: .alwaysOriginal)
-        navigationController.tabBarItem.selectedImage = UIImage(systemName: "fork.knife")?.withTintColor(.black, renderingMode: .alwaysOriginal)
+//        navigationController.tabBarItem.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.black], for: .normal)
+//        navigationController.tabBarItem.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.black], for: .selected)
+        navigationController.tabBarItem.image = UIImage(systemName: "fork.knife")?.withTintColor(.black, renderingMode: .alwaysTemplate)
         
         let navigationController1 = UINavigationController(rootViewController: IngredientsVC())
         
         navigationController1.tabBarItem = UITabBarItem(title: "Ingredients ", image: UIImage(systemName: "carrot"), tag: 0)
-        navigationController1.tabBarItem.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.black], for: .normal)
-        navigationController1.tabBarItem.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.black], for: .selected)
-        navigationController1.tabBarItem.image = UIImage(systemName: "carrot")?.withRenderingMode(.alwaysOriginal)
-        navigationController1.tabBarItem.selectedImage = UIImage(systemName: "carrot")?.withRenderingMode(.alwaysOriginal)
+//        navigationController1.tabBarItem.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.black], for: .normal)
+//        navigationController1.tabBarItem.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.black], for: .selected)
+        navigationController1.tabBarItem.image = UIImage(systemName: "carrot")?.withRenderingMode(.alwaysTemplate)
         
         let tabBarController = UITabBarController()
         tabBarController.viewControllers = [navigationController2, navigationController, navigationController1]

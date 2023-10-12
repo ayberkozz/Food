@@ -29,7 +29,10 @@ class FoodViewModel {
         
         endpoint = Endpoint.complexSearch(query: query, maxFat: parameters.maxFat, diet: parameters.diet, number: parameters.number)
 
-        foodService.fetchFoods(with: endpoint) { (result: Result<FoodModel, FoodServiceError>) in
+        foodService.fetchFoods(with: endpoint) { [weak self] (result: Result<FoodModel, FoodServiceError>) in
+            
+            guard let self = self else {return}
+            
             switch result {
             case .success(let foods):
                 let foodResults = foods.results

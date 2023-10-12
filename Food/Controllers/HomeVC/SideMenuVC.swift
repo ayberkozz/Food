@@ -146,6 +146,7 @@ class SideMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
             tv.widthAnchor.constraint(equalToConstant: view.frame.width),
             tv.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             tv.topAnchor.constraint(equalToSystemSpacingBelow: topView.bottomAnchor, multiplier: 5),
+            
         ])
     }
 

@@ -133,7 +133,6 @@ class FoodMainVC: UIViewController, FoodViewModelOutput {
         
         view.backgroundColor = .white
         
-        
         self.navigationItem.title = "Foods🥘"
         self.navigationController?.navigationBar.prefersLargeTitles = true
         self.navigationItem.largeTitleDisplayMode = .always

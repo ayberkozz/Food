@@ -46,7 +46,6 @@ class SideMenuContainerVC: UIViewController,AuthOutViewModelDelegate {
         view.addSubview(sideMenuVC.view)
         sideMenuVC.didMove(toParent: self)
 
-        
         homeVC.delegate = self
         let navVC = UINavigationController(rootViewController: homeVC)
         addChild(navVC)

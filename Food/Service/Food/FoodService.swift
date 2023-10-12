@@ -26,11 +26,11 @@ class FoodService : FoodServiceProtocol {
         URLSession.shared.dataTask(with: request) { data,response,err in
             
             if let error = err {
-                completion(.failure(.unknown(error.localizedDescription)))
+                completion(.failure(.unknown()))
             }
             
             if let response = response as? HTTPURLResponse, response.statusCode != 200 {
-                completion(.failure(.decodingError()))
+                completion(.failure(.serverError()))
             }
             
             if let data = data {
@@ -38,9 +38,8 @@ class FoodService : FoodServiceProtocol {
                     let decoder = JSONDecoder()
                     let decodedData = try decoder.decode(T.self, from: data)
                     completion(.success(decodedData))
-                } catch let errr {
-                    completion(.failure(.decodingError(errr.localizedDescription)))
-                    print(errr.localizedDescription)
+                } catch {
+                    completion(.failure(.decodingError()))
                 }
             } else {
                 completion(.failure(.unknown()))
